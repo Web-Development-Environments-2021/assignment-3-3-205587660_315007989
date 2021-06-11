@@ -2,12 +2,12 @@
   <div>
     <GamePreview
       v-for="g in games"
-      :id="g.id" 
-      :hostTeam="g.hostTeam" 
-      :guestTeam="g.guestTeam" 
-      :date="g.date" 
+      :id="g.game_id" 
+      :hostTeam="g.homeTeam" 
+      :guestTeam="g.awayTeam" 
+      :date="g.gameDate" 
       :hour="g.hour" 
-      :key="g.id"></GamePreview>
+      :key="g.game_id"></GamePreview>
   </div>
 </template>
 
@@ -20,20 +20,19 @@ export default {
   }, 
   data() {
     return {
-      games: [
-      ]
+      games: []
     };
   },
   methods: {
     async updateGames(){
       console.log("response");
       try {
-        const response = await this.axios.get("http://localhost:3000/homepage/favoritematches",);
-        response.data.games;
-        // this.games = [];
-        // console.log(...games);
-        // this.games.push(...games);
-        // console.log(response);
+        const response = await this.axios.get("http://localhost:3000/homepage/favoritematches");
+        response.data.forEach(element => {
+          element.gameDate= element.gameDate.substring(0, 10);
+        });
+        this.games= response.data;
+
       } catch (error) {
         console.log("error in update games")
         console.log(error);

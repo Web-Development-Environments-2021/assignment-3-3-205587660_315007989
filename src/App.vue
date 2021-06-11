@@ -7,11 +7,16 @@
           <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
           <b-nav-item :to="{ name: 'LeagueGames' }">LeagueGames</b-nav-item>
           <b-nav-item-dropdown right v-if="$root.store.username">
-            <template #button-content>Personal
-            </template>
-            <b-dropdown-item :to="{ name: 'FavPlayers' }"> Fav Players </b-dropdown-item>
-            <b-dropdown-item :to="{ name: 'FavGames' }" >Fav Games </b-dropdown-item>
-            <b-dropdown-item :to="{ name: 'FavTeams' }" >Fav Teams </b-dropdown-item>
+            <template #button-content>Personal </template>
+            <b-dropdown-item :to="{ name: 'FavPlayers' }">
+              Fav Players
+            </b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'FavGames' }"
+              >Fav Games
+            </b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'FavTeams' }"
+              >Fav Teams
+            </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
@@ -26,7 +31,10 @@
             <b-dropdown-item :to="{ name: 'register' }"
               >Register <b-icon icon="arrow90deg-up"></b-icon
             ></b-dropdown-item>
+
           </b-nav-item-dropdown>
+                                        <!-- <b-nav-item :to="{ name: 'About' }">About</b-nav-item> -->
+
           <!-- <b-nav-text>Welcome Guest!</b-nav-text>
           <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
           <b-nav-item :to="{ name: 'register' }">Register</b-nav-item> -->
@@ -39,18 +47,16 @@
               {{ $root.store.username }}!
             </template>
             <b-dropdown-item href="#">Personal Site</b-dropdown-item>
-            <b-dropdown-item  @click="Logout">
+            <b-dropdown-item @click="Logout">
               Log Out <b-icon icon="arrow-bar-left"></b-icon
             ></b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item :to="{ name: 'About' }">About</b-nav-item>
+                  <!-- <b-nav-item :to="{ name: 'About' }">About</b-nav-item> -->
+
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <router-view />
-
-
-
   </div>
 </template>
 
@@ -61,35 +67,31 @@ export default {
     return {
       form: {
         submitError: undefined,
-      }
+      },
     };
   },
   methods: {
-   async Logout() {
+    async Logout() {
       try {
         const response = await this.axios.post(
           "http://localhost:3000/logout",
-          {
-          }
-          
+          {}
         );
-      this.$root.store.logout();
-      this.$root.toast("Logout", "User logged out successfully", "success");
-      this.$router.push("/").catch(() => {
-        this.$forceUpdate();
-      });      
-        } catch (err) {
+        this.$root.store.logout();
+        this.$root.toast("Logout", "User logged out successfully", "success");
+        this.$router.push("/").catch(() => {
+          this.$forceUpdate();
+        });
+      } catch (err) {
         console.log(err.response);
-        if(err.response.status===401){
-        this.form.submitError = err.response.data;
-   //     console.log(this.form.submitError);
+        if (err.response.status === 401) {
+          this.form.submitError = err.response.data;
+          //     console.log(this.form.submitError);
         }
-  //      this.form.submitError = err.response.data.message;
+        //      this.form.submitError = err.response.data.message;
       }
-
-
-    }
-  }
+    },
+  },
 };
 </script>
 
