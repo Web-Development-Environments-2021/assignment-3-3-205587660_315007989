@@ -18,10 +18,36 @@ const routes = [
     component: () => import("./pages/LoginPage")
   },
   {
+    path: "/LeagueGames",
+    name: "LeagueGames",
+    component: () => import("./pages/LeagueGames")
+  },
+  {
     path: "/search",
     name: "search",
     component: () => import("./pages/SearchPage")
   },
+  {
+    path: "/FavGames",
+    name: "FavGames",
+    component: () => import("./pages/FavGames")
+  },
+  {
+    path: "/FavTeams",
+    name: "FavTeams",
+    component: () => import("./pages/FavTeams")
+  },
+  {
+    path: "/FavPlayers",
+    name: "FavPlayers",
+    component: () => import("./pages/FavPlayers")
+  },
+    {
+    path: "/Players/:id",
+    name: "players",
+      component: () => import("./pages/players")
+  },
+
   {
     path: "*",
     name: "notFound",
