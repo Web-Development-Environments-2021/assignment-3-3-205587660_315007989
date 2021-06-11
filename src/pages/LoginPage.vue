@@ -57,6 +57,7 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
+    
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card> -->
@@ -72,7 +73,7 @@ export default {
       form: {
         username: "",
         password: "",
-        submitError: undefined
+        submitError: undefined,
       }
     };
   },
@@ -94,11 +95,12 @@ export default {
     async Login() {
       try {
         const response = await this.axios.post(
-          "https://localhost:3000/user/Login",
+          "http://localhost:3000/Login",
           {
             username: this.form.username,
             password: this.form.password
           }
+          
         );
         // console.log(response);
         // this.$root.loggedIn = true;
@@ -107,7 +109,11 @@ export default {
         this.$router.push("/");
       } catch (err) {
         console.log(err.response);
-        this.form.submitError = err.response.data.message;
+        if(err.response.status===401){
+        this.form.submitError = err.response.data;
+   //     console.log(this.form.submitError);
+        }
+  //      this.form.submitError = err.response.data.message;
       }
     },
     onLogin() {
@@ -118,7 +124,6 @@ export default {
         return;
       }
       // console.log("login method go");
-
       this.Login();
     }
   }

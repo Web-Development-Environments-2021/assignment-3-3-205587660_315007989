@@ -11,32 +11,67 @@
           <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
           <b-nav-item :to="{ name: 'register' }">Register</b-nav-item>
         </b-navbar-nav>
+             <b-alert
+      class="mt-2"
+      v-if="form.submitError"
+      variant="warning"
+      dismissible
+      show
+    >
+      Logout failed: {{ form.submitError }}
+    </b-alert>
         <b-navbar-nav class="ml-auto" v-else>
         <b-nav-item-dropdown right>
           <template #button-content>
             User
           </template>
           <b-dropdown-item href="#">Favorites</b-dropdown-item>
-          <b-dropdown-item href="#">Log Out</b-dropdown-item>
+          <b-dropdown-item @click="Logout">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
     <router-view />
+
+
+
   </div>
 </template>
 
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      form: {
+        submitError: undefined,
+      }
+    };
+  },
   methods: {
-    Logout() {
+   async Logout() {
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/logout",
+          {
+          }
+          
+        );
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
-
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
-      });
+      });      
+        } catch (err) {
+        console.log(err.response);
+        if(err.response.status===401){
+        this.form.submitError = err.response.data;
+   //     console.log(this.form.submitError);
+        }
+  //      this.form.submitError = err.response.data.message;
+      }
+
+
     }
   }
 };
@@ -44,7 +79,6 @@ export default {
 
 <style lang="scss">
 @import "@/scss/form-style.scss";
-
 #app {
   // font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -52,16 +86,13 @@ export default {
   color: #2c3e50;
   min-height: 100vh;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
