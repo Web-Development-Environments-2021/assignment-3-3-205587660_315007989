@@ -2,6 +2,17 @@
   <div class="game-preview">
     <div :title="id" class="game-title">
       <b>Game Id:</b> {{ id }}
+          <b-div v-b-hover="handleHover">
+            <b-icon
+              v-b-tooltip.hover
+              title="Remove from Favorite"
+              v-if="isHovered"
+              icon="heart"
+              @click="RemoveFav"
+            ></b-icon>
+            <b-icon v-else id="heart" icon="heart-fill"></b-icon
+          ></b-div>
+
     </div>
     <ul class="game-content">
       <li> host: {{ hostTeam }}</li>
@@ -14,6 +25,11 @@
 
 <script>
 export default {
+    data() {
+    return {
+      isHovered: false
+    };
+  },
   name: "GamePreview",
   props: {
       id: {
@@ -39,7 +55,29 @@ export default {
   }, 
   mounted(){
     console.log("game preview mounted")
-  } 
+  },
+  
+  methods: {
+    async RemoveFav() {
+      try {
+        // var url =`http://localhost:3000/homepage/favoritematches/${this.id}`;
+        // const response = await this.axios.delete(url,{},{});
+        this.$parent.games = this.$parent.games.filter(
+          obj => obj.game_id !== this.id
+        );
+        this.$root.toast(
+          "Removed from favorites", `${this.id} game Removed from favorites `,
+          "success"
+        );
+      } catch (err) {
+        console.log(err);
+        // if()
+      }
+    },
+    handleHover(hovered) {
+      this.isHovered = hovered;
+    }
+  }
 };
 </script>
 

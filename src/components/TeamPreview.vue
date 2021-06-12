@@ -1,10 +1,27 @@
 <template>
   <div class="team-preview">
-    <b-card >
-     <b-card-img class="float-right" :src="Logo" rounded="circle" right  ></b-card-img>
+    <b-card>
+      <b-card-img
+        class="float-right"
+        :src="Logo"
+        rounded="circle"
+        right
+      ></b-card-img>
 
       <b-card-text>
-        <div :title="id" class="team-title"><b>Team Id:</b> {{ id }}</div>
+        <div :title="id" class="team-title">
+          <b>Team Id:</b> {{ id }}
+          <b-div v-b-hover="handleHover">
+            <b-icon
+              v-b-tooltip.hover
+              title="Remove from Favorite"
+              v-if="isHovered"
+              icon="heart"
+              @click="RemoveFav"
+            ></b-icon>
+            <b-icon v-else id="heart" icon="heart-fill"></b-icon
+          ></b-div>
+        </div>
         <ul class="team-content">
           <li>Team Name: {{ TeamName }}</li>
           <li>coach Name: {{ coachName }}</li>
@@ -16,6 +33,11 @@
 
 <script>
 export default {
+    data() {
+    return {
+      isHovered: false
+    };
+  },
   name: "TeamPreview",
   props: {
     id: {
@@ -38,6 +60,30 @@ export default {
   mounted() {
     console.log("team preview mounted");
   },
+   mounted() {
+    console.log("player preview mounted");
+  },
+  methods: {
+    async RemoveFav() {
+      try {
+        // var url =`http://localhost:3000/homepage/favoriteteam/${this.id}`;
+        // const response = await this.axios.delete(url,{},{});
+        this.$parent.teams = this.$parent.teams.filter(
+          obj => obj.team_id !== this.id
+        );
+        this.$root.toast(
+          "Removed from favorites", `${this.TeamName} Removed from favorites `,
+          "success"
+        );
+      } catch (err) {
+        console.log(err);
+        // if()
+      }
+    },
+    handleHover(hovered) {
+      this.isHovered = hovered;
+    }
+  }
 };
 </script>
 
