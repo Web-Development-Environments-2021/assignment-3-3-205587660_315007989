@@ -77,7 +77,6 @@ export default {
         );
       } catch (err) {
         console.log(err);
-        // if()
       }
     },
     handleHover(hovered) {

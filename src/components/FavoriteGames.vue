@@ -35,17 +35,20 @@ export default {
         var today = new Date();
         today = today.toISOString();
         const old_games = response.data.filter((game) => game.gameDate < today);
-        this.games= response.data.filter((game) => game.gameDate > today);
-        
+        this.games = response.data.filter((game) => game.gameDate > today);
+
         console.log(old_games);
-        this.$root.toast(
-          "Removed from favorites", `Removed ${old_games.length} old games from favorites `,
-          "success"
-        );
-        old_games.forEach(async (element) =>  {
-          var url = `http://localhost:3000/homepage/favoritematches/${element.game_id}`;
-          var response1 = await this.axios.delete(url, {}, {});
-        });
+        if (old_games.length > 0) {
+          this.$root.toast(
+            "Removed from favorites",
+            `Removed ${old_games.length} old games from favorites `,
+            "success"
+          );
+          old_games.forEach(async (element) => {
+            var url = `http://localhost:3000/homepage/favoritematches/${element.game_id}`;
+            var response1 = await this.axios.delete(url, {}, {});
+          });
+        }
       } catch (error) {
         console.log("error in update games");
         console.log(error);
