@@ -2,16 +2,10 @@
   <div class="game-preview">
     <div :title="id" class="game-title">
       <b>Game Id:</b> {{ id }}
-          <b-div v-b-hover="handleHover">
-            <b-icon
-              v-b-tooltip.hover
-              title="Remove from Favorite"
-              v-if="isHovered"
-              icon="heart"
-              @click="RemoveFav"
-            ></b-icon>
-            <b-icon v-else id="heart" icon="heart-fill"></b-icon
-          ></b-div>
+      <FavButton
+      :id= id
+      Type="matches">
+      </FavButton>
 
     </div>
     <ul class="game-content">
@@ -24,12 +18,14 @@
 </template>
 
 <script>
+import FavButton from "./FavButton.vue"
 export default {
     data() {
     return {
-      isHovered: false
+     
     };
   },
+  
   name: "GamePreview",
   props: {
       id: {
@@ -52,6 +48,9 @@ export default {
         type: String,
         required: true
       }
+  }, 
+    components: {
+    FavButton
   }, 
   mounted(){
     console.log("game preview mounted")

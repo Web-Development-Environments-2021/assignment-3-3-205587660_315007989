@@ -6,17 +6,7 @@
       <b-card-text>
         <div :title="id" class="player-title">
           <b> Player Id:</b> {{ id }}
-          <!-- <b-div v-b-hover="handleHover">
-            <b-icon
-              v-b-tooltip.hover
-              title="Remove from Favorite"
-              v-if="isHovered"
-              icon="heart"
-              @click="RemoveFav"
-            >
-            </b-icon>
-            <b-icon v-else id="heart" icon="heart-fill"></b-icon
-          ></b-div> -->
+          <FavButton :id="id" Type="player"> </FavButton>
           <h1>{{ TeamName }} | #{{ Position }}</h1>
           <h3>{{ FullName }}</h3>
         </div>
@@ -36,11 +26,15 @@
 </template>
 
 <script>
+import FavButton from "../components/FavButton.vue";
+
 export default {
   data() {
     return {
-      isHovered: false,
     };
+  },
+    components: {
+    FavButton,
   },
   name: "PlayerDetial",
   props: {
@@ -90,22 +84,6 @@ export default {
     this.getPlayer();
   },
   methods: {
-    async RemoveFav() {
-      try {
-        // var url =`http://localhost:3000/homepage/favoriteplayer/${this.id}`;
-        // const response = await this.axios.delete(url,{},{});
-        this.$parent.players = this.$parent.players.filter(
-          (obj) => obj.player_id !== this.id
-        );
-        this.$root.toast(
-          "Removed from favorites",
-          `${this.FullName} Removed from favorites `,
-          "success"
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    },
     handleHover(hovered) {
       this.isHovered = hovered;
     },

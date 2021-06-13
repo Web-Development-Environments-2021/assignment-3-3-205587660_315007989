@@ -5,18 +5,7 @@
 
       <b-card-text>
         <div :title="id" class="player-title">
-          <b> Player Id:</b> {{ id }}
-          <b-div v-b-hover="handleHover">
-            <b-icon
-              v-b-tooltip.hover
-              title="Remove from Favorite"
-              v-if="isHovered"
-              icon="heart"
-              @click="RemoveFav"
-            >
-            </b-icon>
-            <b-icon v-else id="heart" icon="heart-fill"></b-icon
-          ></b-div>
+          <FavButton :id="id" Type="player"> </FavButton>
           <h1>{{ TeamName }} | #{{ Position }}</h1>
           <h2>{{ FullName }}</h2>
         </div>
@@ -31,11 +20,14 @@
 </template>
 
 <script>
+import FavButton from "./FavButton.vue";
+
 export default {
   data() {
-    return {
-      isHovered: false,
-    };
+    return {};
+  },
+  components: {
+    FavButton,
   },
   name: "PlayerDetial",
   props: {
@@ -107,9 +99,8 @@ export default {
     async getPlayer() {
       try {
         console.log(`player ID number ${$route.params.id}`);
-        const url= `http://localhost:3000/homepage/player/playerFullDetails/${2}`
+        const url = `http://localhost:3000/homepage/player/playerFullDetails/${2}`;
         const response = await this.axios.get();
-
       } catch (err) {
         console.log(err);
       }

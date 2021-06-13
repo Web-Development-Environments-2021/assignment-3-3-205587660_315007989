@@ -4,7 +4,6 @@
       <b-card-img
         id="photo"
                 class="float-left"
-
         img-height="200"
         img-width="200"
         :src="Photo"
@@ -14,25 +13,16 @@
       <b-card-text>
         <div :title="id" class="team-title">
           <b> Team Id:</b> {{ id }}
-          <!-- <b-div v-b-hover="handleHover">
-            <b-icon
-              v-b-tooltip.hover
-              title="Remove from Favorite"
-              v-if="isHovered"
-              icon="heart"
-              @click="RemoveFav"
-            >
-            </b-icon>
-            <b-icon v-else id="heart" icon="heart-fill"></b-icon
-          ></b-div> -->
           <h1>{{ TeamName }}</h1>
+                    <FavButton :id="id" Type="team"> </FavButton>
+
           <!-- <h3>{{ FullName }}</h3> -->
         </div>
         <ul class="team-content">
           <li>Coach Name: {{ coach_name }}</li>
         </ul>
         <b-card-group deck>
-          <PlayerPreview
+          <FavPlayerPreview
             v-for="p in players"
             :id="p.player_id"
             :FullName="p.name"
@@ -40,7 +30,7 @@
             :Position="p.position"
             :key="p.player_id"
           >
-          </PlayerPreview>
+          </FavPlayerPreview>
         </b-card-group>
       </b-card-text>
     </b-card>
@@ -48,11 +38,14 @@
 </template>
 
 <script>
-import PlayerPreview from "../components/PlayerPreview.vue";
+import FavPlayerPreview from "../components/FavPlayerPreview.vue";
+import FavButton from "../components/FavButton.vue";
+
 export default {
-  name: "PlayerPreview",
+  name: "FavPlayerPreview",
   components: {
-    PlayerPreview,
+    FavPlayerPreview,
+    FavButton,
   },
   data() {
     return {
@@ -79,25 +72,6 @@ export default {
     this.getTeam();
   },
   methods: {
-    async RemoveFav() {
-      try {
-        // var url =`http://localhost:3000/homepage/favoriteteam/${this.id}`;
-        // const response = await this.axios.delete(url,{},{});
-        this.$parent.teams = this.$parent.teams.filter(
-          (obj) => obj.team_id !== this.id
-        );
-        this.$root.toast(
-          "Removed from favorites",
-          `${this.FullName} Removed from favorites `,
-          "success"
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    handleHover(hovered) {
-      this.isHovered = hovered;
-    },
 
     loadData(data) {
       this.id = data.team_id;
