@@ -46,6 +46,19 @@ const routes = [
     path: "/Players/:id",
     name: "players",
       component: () => import("./pages/players")
+
+  },
+  {
+    path: "/Coach/:id",
+    name: "Coach",
+    component: () => import("./pages/Coach")
+
+  },
+  {
+    path: "/Team/:id",
+    name: "Team",
+    component: () => import("./pages/Team")
+
   },
 
   {

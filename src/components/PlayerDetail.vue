@@ -1,16 +1,11 @@
 <template>
   <div class="player-preview">
     <b-card>
-      <b-card-img
-        class="float-right"
-        :src="Photo"
-        rounded="circle"
-        img-top
-      ></b-card-img>
+      <b-card-img class="float-right" :src="Photo" img-left></b-card-img>
 
       <b-card-text>
         <div :title="id" class="player-title">
-          <b><b-icon icon="person-fill"></b-icon> Player Id:</b> {{ id }}
+          <b> Player Id:</b> {{ id }}
           <b-div v-b-hover="handleHover">
             <b-icon
               v-b-tooltip.hover
@@ -18,9 +13,12 @@
               v-if="isHovered"
               icon="heart"
               @click="RemoveFav"
-            ></b-icon>
+            >
+            </b-icon>
             <b-icon v-else id="heart" icon="heart-fill"></b-icon
           ></b-div>
+          <h1>{{ TeamName }} | #{{ Position }}</h1>
+          <h2>{{ FullName }}</h2>
         </div>
         <ul class="player-content">
           <li>Full Name: {{ FullName }}</li>
@@ -36,34 +34,55 @@
 export default {
   data() {
     return {
-      isHovered: false
+      isHovered: false,
     };
   },
-  name: "PlayerPreview",
+  name: "PlayerDetial",
   props: {
     id: {
       type: Number,
-      required: true
+      required: true,
     },
     FullName: {
       type: String,
-      required: true
+      required: true,
     },
     TeamName: {
       type: String,
-      required: true
+      required: true,
     },
     Photo: {
       type: String,
-      required: true
+      required: true,
     },
     Position: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
+    // CommonName: {},
+    nationality: {
+      type: String,
+      required: true,
+    },
+    birth_date: {
+      type: String,
+      required: true,
+    },
+    birthcountry: {
+      type: String,
+      required: true,
+    },
+    height: {
+      type: String,
+      required: true,
+    },
+    weight: {
+      type: String,
+      required: true,
+    },
   },
   mounted() {
-    console.log("player preview mounted");
+    this.getPlayer();
   },
   methods: {
     async RemoveFav() {
@@ -71,7 +90,7 @@ export default {
         // var url =`http://localhost:3000/homepage/favoriteplayer/${this.id}`;
         // const response = await this.axios.delete(url,{},{});
         this.$parent.players = this.$parent.players.filter(
-          obj => obj.player_id !== this.id
+          (obj) => obj.player_id !== this.id
         );
         this.$root.toast(
           "Removed from favorites",
@@ -80,13 +99,22 @@ export default {
         );
       } catch (err) {
         console.log(err);
-        // if()
       }
     },
     handleHover(hovered) {
       this.isHovered = hovered;
-    }
-  }
+    },
+    async getPlayer() {
+      try {
+        console.log(`player ID number ${$route.params.id}`);
+        const url= `http://localhost:3000/homepage/player/playerFullDetails/${2}`
+        const response = await this.axios.get();
+
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 </script>
 

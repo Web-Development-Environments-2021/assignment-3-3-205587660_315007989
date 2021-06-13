@@ -5,7 +5,7 @@
         class="float-right"
         :src="Photo"
         rounded="circle"
-        img-top
+        right
       ></b-card-img>
 
       <b-card-text>

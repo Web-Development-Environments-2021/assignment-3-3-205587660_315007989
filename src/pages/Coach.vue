@@ -1,11 +1,11 @@
 <template>
-  <div class="player-preview">
+  <div class="coach-preview">
     <b-card>
       <b-card-img class="float-right" :src="Photo" img-left></b-card-img>
 
       <b-card-text>
-        <div :title="id" class="player-title">
-          <b> Player Id:</b> {{ id }}
+        <div :title="id" class="coach-title">
+          <b> Coach Id:</b> {{ id }}
           <!-- <b-div v-b-hover="handleHover">
             <b-icon
               v-b-tooltip.hover
@@ -17,18 +17,16 @@
             </b-icon>
             <b-icon v-else id="heart" icon="heart-fill"></b-icon
           ></b-div> -->
-          <h1>{{ TeamName }} | #{{ Position }}</h1>
+          <h1>{{ TeamName }} </h1>
           <h3>{{ FullName }}</h3>
         </div>
-        <ul class="player-content">
+        <ul class="coach-content">
           <li>Full Name: {{ FullName }}</li>
           <li>Team Name: {{ TeamName }}</li>
           <li>Position: {{ Position }}</li>
           <li>birth_date: {{ birth_date }}</li>
           <li>nationality: {{ nationality }}</li>
-          <li>birthcountr: {{ birthcountr }}</li>
-          <li>height: {{ height }}</li>
-          <li>weight : {{ weight }}</li>
+          <li>birthcountry: {{ birthcountry }}</li>
         </ul>
       </b-card-text>
     </b-card>
@@ -42,7 +40,7 @@ export default {
       isHovered: false,
     };
   },
-  name: "PlayerDetial",
+  name: "CoachDetial",
   props: {
     id: {
       type: Number,
@@ -77,25 +75,17 @@ export default {
       type: String,
       required: true,
     },
-    height: {
-      type: String,
-      required: true,
-    },
-    weight: {
-      type: String,
-      required: true,
-    },
   },
   mounted() {
-    this.getPlayer();
+    this.getCoach();
   },
   methods: {
     async RemoveFav() {
       try {
-        // var url =`http://localhost:3000/homepage/favoriteplayer/${this.id}`;
+        // var url =`http://localhost:3000/homepage/favoritecoach/${this.id}`;
         // const response = await this.axios.delete(url,{},{});
-        this.$parent.players = this.$parent.players.filter(
-          (obj) => obj.player_id !== this.id
+        this.$parent.coachs = this.$parent.coachs.filter(
+          (obj) => obj.coach_id !== this.id
         );
         this.$root.toast(
           "Removed from favorites",
@@ -112,23 +102,20 @@ export default {
 
     loadData(data) {
       this.FullName = data.name;
-      this.id = data.player_id;
+      this.id = data.coach_id;
       this.FullName = data.name;
       this.TeamName = data.team_name;
       this.Photo = data.image;
-      this.Position = data.position;
       this.nationality = data.nationality;
       this.birth_date = data.birth_date;
       this.birthcountry = data.birthcountry;
-      this.height = data.height;
-      this.weight = data.weight;
     },
 
-    async getPlayer() {
+    async getCoach() {
       try {
-        const player_id = this.$route.params.id;
-        console.log(`player ID number ${player_id}`);
-        const url = `http://localhost:3000/player/playerFullDetails/${player_id}`;
+        const coach_id = this.$route.params.id;
+        console.log(`coach ID number ${coach_id}`);
+        const url = `http://localhost:3000/coach/coachDetailById/${coach_id}`;
         const response = await this.axios.get(url);
         console.log(response);
         console.log(response.data.name);
@@ -144,7 +131,7 @@ export default {
 </script>
 
 <style>
-.player-preview {
+.coach-preview {
   display: inline-block;
   width: 500px;
   height: 200px;
@@ -156,13 +143,13 @@ export default {
   border-color: cadetblue;
 }
 
-.player-preview .player-title {
+.coach-preview .coach-title {
   text-align: left;
   text-transform: uppercase;
   color: rgb(111, 197, 157);
 }
 
-.player-preview .player-content {
+.coach-preview .coach-content {
   width: 100%;
   overflow: hidden;
 }

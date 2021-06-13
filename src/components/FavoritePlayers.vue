@@ -1,22 +1,22 @@
 <template>
   <div>
-    <PlayerPreview
+    <FavPlayerPreview
       v-for="p in players"
       :id="p.player_id"
       :FullName="p.name" 
       :TeamName="p.team_name" 
       :Photo="p.image" 
       :Position="p.position" 
-      :key="p.player_id"></PlayerPreview>
+      :key="p.player_id"></FavPlayerPreview>
   </div>
 </template>
 
 <script>
-import PlayerPreview from "./PlayerPreview.vue";
+import FavPlayerPreview from "./FavPlayerPreview.vue";
 export default {
   name: "FavoritePlayers",
   components: {
-    PlayerPreview
+    FavPlayerPreview
   }, 
   data() {
     return {
