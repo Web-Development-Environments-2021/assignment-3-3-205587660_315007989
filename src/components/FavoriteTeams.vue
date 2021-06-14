@@ -6,6 +6,7 @@
       :TeamName="t.team_name" 
       :Logo="t.logo_path" 
       :coachName="t.coach_name" 
+      :coach_id="t.coach_id" 
       :key="t.team_id"></TeamPreview>
   </div>
 </template>

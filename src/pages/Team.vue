@@ -13,10 +13,15 @@
       <b-card-text>
         <div :title="id" class="team-title">
           <b> Team Id:</b> {{ id }}
-          <h1>{{ TeamName }}</h1>
+          <h1>{{ team_name }}</h1>
           <FavButton :id="id" Type="team"> </FavButton>
           <ul class="team-content">
-            <li>Coach Name: {{ coach_name }}</li>
+            <li>
+              Coach Name:
+              <b-link :to="{ name: 'Coach', params: { id: coach_id } }">
+                {{ coach_name }}</b-link
+              >
+            </li>
           </ul>
         </div>
       </b-card-text>
@@ -91,23 +96,15 @@ export default {
       old_games: [],
       new_games: [],
       isHovered: false,
+      id: "",
+      team_name: "",
+      Photo: "",
+      coach_id: "",
+      coach_name: "",
+      trophies: "",
     };
   },
   name: "TeamDetial",
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-    TeamName: {
-      type: String,
-      required: true,
-    },
-    Photo: {
-      type: String,
-      required: true,
-    },
-  },
   mounted() {
     this.getTeam();
   },

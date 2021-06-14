@@ -29,6 +29,7 @@ import {
   VBHoverPlugin,
   TooltipPlugin,
   TabsPlugin,
+  LinkPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -45,7 +46,8 @@ import {
   IconsPlugin,
   VBHoverPlugin,
   TooltipPlugin,
-  TabsPlugin
+  TabsPlugin,
+  LinkPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

@@ -49,7 +49,7 @@ export default {
     const response_get = await this.axios.get(url_get);
     if (
       this.Type === "matches" &&
-      response_get.data.find((element) => element.game_id == this.id)
+      response_get.data.find((element) => (element.gameID==this.id||element.game_id == this.id))
     ) {
       console.log("liked game");
       this.isLiked = true;

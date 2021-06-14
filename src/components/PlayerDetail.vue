@@ -11,7 +11,9 @@
         </div>
         <ul class="player-content">
           <li>Full Name: {{ FullName }}</li>
-          <li>Team Name: {{ TeamName }}</li>
+          <li>Team Name: <b-link :to="{ name: 'Team', params: { id: team_id } }">
+          {{ TeamName }}</b-link
+        ></li>
           <li>Position: {{ Position }}</li>
         </ul>
       </b-card-text>
@@ -43,6 +45,11 @@ export default {
       type: String,
       required: true,
     },
+        team_id: {
+      type: Number,
+      required: true,
+    },
+
     Photo: {
       type: String,
       required: true,
@@ -51,7 +58,6 @@ export default {
       type: String,
       required: true,
     },
-    // CommonName: {},
     nationality: {
       type: String,
       required: true,
@@ -73,39 +79,7 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    this.getPlayer();
-  },
-  methods: {
-    async RemoveFav() {
-      try {
-        // var url =`http://localhost:3000/homepage/favoriteplayer/${this.id}`;
-        // const response = await this.axios.delete(url,{},{});
-        this.$parent.players = this.$parent.players.filter(
-          (obj) => obj.player_id !== this.id
-        );
-        this.$root.toast(
-          "Removed from favorites",
-          `${this.FullName} Removed from favorites `,
-          "success"
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    handleHover(hovered) {
-      this.isHovered = hovered;
-    },
-    async getPlayer() {
-      try {
-        console.log(`player ID number ${$route.params.id}`);
-        const url = `http://localhost:3000/homepage/player/playerFullDetails/${2}`;
-        const response = await this.axios.get();
-      } catch (err) {
-        console.log(err);
-      }
-    },
-  },
+
 };
 </script>
 

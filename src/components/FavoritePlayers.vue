@@ -5,6 +5,7 @@
       :id="p.player_id"
       :FullName="p.name" 
       :TeamName="p.team_name" 
+      :team_id="p.team_id" 
       :Photo="p.image" 
       :Position="p.position" 
       :key="p.player_id"></FavPlayerPreview>

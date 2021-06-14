@@ -1,23 +1,28 @@
 <template>
   <div>
-    <GamePreview
-      v-for="g in games"
-      :id="g.gameID"
-      :hostTeam="g.homeTeam"
-      :guestTeam="g.awayTeam"
-      :date="g.gameDate"
-      :hour="g.hour"
-      :key="g.gameID"
-    ></GamePreview>
+    <GamePreviewDetial
+         v-for="g in games"
+          :id="g.gameID"
+          :referee="g.referee"
+          :stadium="g.stadium"
+          :stage="g.stage"
+          :hostTeamID="g.homeTeam"
+          :hostTeam="g.homeTeamName"
+          :guestTeamID="g.awayTeam"
+          :guestTeam="g.awayTeamName"
+          :date="g.gameDate"
+          :hour="g.hour"
+          :key="g.gameID"
+    ></GamePreviewDetial>
   </div>
 </template>
 
 <script>
-import GamePreview from "./GamePreview.vue";
+import GamePreviewDetial from "./GamePreviewDetial.vue";
 export default {
   name: "FavoriteGames",
   components: {
-    GamePreview,
+    GamePreviewDetial,
   },
   data() {
     return {

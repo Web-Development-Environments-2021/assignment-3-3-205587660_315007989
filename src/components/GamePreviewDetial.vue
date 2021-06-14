@@ -2,29 +2,39 @@
   <div class="game-preview">
     <div :title="id" class="game-title">
       <b>Game Id:</b> {{ id }}
-      
+
       <FavButton v-if="!isPast" :id="id" Type="matches"> </FavButton>
     </div>
     <ul class="game-content">
-      <li>host: {{ hostTeam }}</li>
-      <li>guest: {{ guestTeam }}</li>
-      <li v-if="isPast"> score: {{homeScore}}:{{awayScore}}</li>
+      <li>
+        host:
+        <b-link :to="{ name: 'Team', params: { id: hostTeamID } }">
+          {{ hostTeam }}</b-link
+        >
+      </li>
+      <li>
+        guest:
+        <b-link :to="{ name: 'Team', params: { id: guestTeamID } }">
+          {{ guestTeam }}</b-link
+        >
+      </li>
+      <li v-if="isPast">score: {{ homeScore }}:{{ awayScore }}</li>
       <li>referee: {{ referee }}</li>
       <li>stadium: {{ stadium }}</li>
       <li>stage: {{ stage }}</li>
-      <li>date: {{ date }}</li>
-      <li>time: {{ hour }}</li>
+      <li>date:  {{datePrint}}</li>
+      <li>time: {{ timePrint }}</li>
     </ul>
     <div v-if="isPast">
-    <GameEvent 
-      v-for="e in Events"
-      :eventType="e.eventType"
-      :gameDate="e.gameDate"
-      :gameTime="e.gameTime"
-      :inGameMinute="e.inGameMinute"
-      :eventDescription="e.eventDescription"
-      :key="e.eventID"
-    ></GameEvent>
+      <GameEvent
+        v-for="e in Events"
+        :eventType="e.eventType"
+        :gameDate="e.gameDate"
+        :gameTime="e.gameTime"
+        :inGameMinute="e.inGameMinute"
+        :eventDescription="e.eventDescription"
+        :key="e.eventID"
+      ></GameEvent>
     </div>
   </div>
 </template>
@@ -37,10 +47,12 @@ export default {
     return {
       Events: [],
       isPast: true,
+      datePrint: "1",
+      timePrint: "2",
     };
   },
 
-  name: "GamePreviewDe",
+  name: "GamePreviewDetial",
   props: {
     id: {
       type: Number,
@@ -96,11 +108,13 @@ export default {
     GameEvent,
   },
   methods: {
-    async setIsPast(){
+    async setIsPast() {
       var today = new Date();
       today = today.toISOString();
       console.log(this);
-      this.isPast= this.date < today;
+      this.isPast = this.date < today;
+      this.datePrint=this.date.substring(0, 10);
+      this.timePrint=this.hour.substring(11, 16);
     },
     async getEvents() {
       try {

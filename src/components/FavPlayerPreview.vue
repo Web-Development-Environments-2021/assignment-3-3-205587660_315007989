@@ -14,8 +14,12 @@
           <FavButton :id="id" Type="player"> </FavButton>
         </div>
         <ul class="player-content">
-          <li>Full Name: {{ FullName }}</li>
-          <li>Team Name: {{ TeamName }}</li>
+          <li>Full Name:        <b-link :to="{ name: 'players', params: { id: id } }">
+          {{ FullName }}</b-link
+        > </li>
+          <li>Team Name:        <b-link :to="{ name: 'Team', params: { id: team_id } }">
+          {{ TeamName }}</b-link
+        > </li>
           <li>Position: {{ Position }}</li>
         </ul>
       </b-card-text>
@@ -41,11 +45,16 @@ export default {
     id: {
       type: Number,
       required: true,
+    }, 
+       team_id: {
+      type: Number,
+      required: true,
     },
     FullName: {
       type: String,
       required: true,
     },
+    
     TeamName: {
       type: String,
       required: true,

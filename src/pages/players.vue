@@ -10,9 +10,11 @@
           <h1>{{ TeamName }} | #{{ Position }}</h1>
           <h3>{{ FullName }}</h3>
         </div>
+
         <ul class="player-content">
           <li>Full Name: {{ FullName }}</li>
-          <li>Team Name: {{ TeamName }}</li>
+          <li>        Team Name:        <b-link :to="{ name: 'Team', params: { id: team_id } }">
+          {{ TeamName }}</b-link></li>
           <li>Position: {{ Position }}</li>
           <li>birth_date: {{ birth_date }}</li>
           <li>nationality: {{ nationality }}</li>
@@ -31,55 +33,24 @@ import FavButton from "../components/FavButton.vue";
 export default {
   data() {
     return {
+            isHovered: false,
+      id:"",
+      FullName:"",
+      TeamName:"",
+      team_id: "",
+      Photo: "",
+      Position: "",
+      nationality: "",
+      birth_date: "",
+      birthcountry: "",
+      height: "",
+      weight: "",
     };
   },
     components: {
     FavButton,
   },
   name: "PlayerDetial",
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-    FullName: {
-      type: String,
-      required: true,
-    },
-    TeamName: {
-      type: String,
-      required: true,
-    },
-    Photo: {
-      type: String,
-      required: true,
-    },
-    Position: {
-      type: String,
-      required: true,
-    },
-    // CommonName: {},
-    nationality: {
-      type: String,
-      required: true,
-    },
-    birth_date: {
-      type: String,
-      required: true,
-    },
-    birthcountry: {
-      type: String,
-      required: true,
-    },
-    height: {
-      type: String,
-      required: true,
-    },
-    weight: {
-      type: String,
-      required: true,
-    },
-  },
   mounted() {
     this.getPlayer();
   },
@@ -93,6 +64,7 @@ export default {
       this.id = data.player_id;
       this.FullName = data.name;
       this.TeamName = data.team_name;
+      this.Team_id = data.team_id;
       this.Photo = data.image;
       this.Position = data.position;
       this.nationality = data.nationality;
