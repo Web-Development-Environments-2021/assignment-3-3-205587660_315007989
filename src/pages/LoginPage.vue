@@ -99,8 +99,7 @@ export default {
           {
             username: this.form.username,
             password: this.form.password
-          }
-          
+          }        
         );
         // console.log(response);
         // this.$root.loggedIn = true;
