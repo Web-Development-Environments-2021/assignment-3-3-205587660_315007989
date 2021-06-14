@@ -18,6 +18,17 @@
         </option>
       </select>
 
+      <b-input-group
+        v-if="this.selectedFilter && this.selectedFilter != `Select a Filter`"
+        prepend="Filter :"
+        id="Filter-input"
+      >
+        <b-form-input v-model="filterQuery">
+          {{ filterQuery }}
+        </b-form-input>
+
+        <b-input-group-append> </b-input-group-append>
+      </b-input-group>
       <b-input-group prepend="Search Query:" id="search-input">
         <b-form-input v-model="searchQuery"></b-form-input>
 
@@ -26,26 +37,21 @@
         </b-input-group-append>
       </b-input-group>
 
-      <b-input-group prepend="Filter :" id="Filter-input">
-        <b-form-input v-model="filterQuery">
-          {{ filterQuery }}
-        </b-form-input>
-
-        <b-input-group-append> </b-input-group-append>
-      </b-input-group>
       <div>
         <div v-if="(this.submitted && this.results.length == 0) || this.error">
           <span><center>could not find any results</center></span>
         </div>
-        <div v-if="this.results && this.results.length > 0 && this.SelectPlayer">
-          <SearchPlayer :rows 
-v-for="g in results"
-            :FullName="g.name"
-            :TeamName="g.team_name"
-            :Position="g.Position"
-            :key="g.player_id"
-          >
-          </SearchPlayer>
+        <div
+          v-if="this.results && this.results.length > 0 && this.SelectPlayer"
+        >
+          <SearchPlayer :results="results"> </SearchPlayer>
+        </div>
+
+        <div v-if="this.results && this.results.length > 0 && this.SelectCoach">
+          <SearchCoach :results="results"> </SearchCoach>
+        </div>
+        <div v-if="this.results && this.results.length > 0 && this.SelectTeam">
+          <SearchTeam :results="results"> </SearchTeam>
         </div>
       </div>
     </div>
@@ -69,9 +75,8 @@ export default {
   name: "tmp",
   components: {
     SearchPlayer,
-    //     SearchCoach,
-    // SearchTeam,
-
+    SearchCoach,
+    SearchTeam,
   },
   // name: "SearchCoach",
   // components: {
@@ -107,15 +112,25 @@ export default {
     },
   },
   methods: {
+    async SaveQuery() {
+      sessionStorage.setItem("PrevQuery", this.searchQuery);
+      sessionStorage.setItem("PrevselectedFilter", this.selectedFilter);
+      sessionStorage.setItem("PrevFilter", this.filterQuery);
+      sessionStorage.setItem("PrevResult", JSON.stringify(this.results));
+      sessionStorage.setItem("PrevselectedObject", this.selectedObject);
+      sessionStorage.setItem("PrevselectPlayer", this.SelectPlayer);
+      sessionStorage.setItem("PrevselectCoach", this.SelectCoach);
+      sessionStorage.setItem("PrevSelectTeam", this.SelectTeam);
+
+    },
     async Search() {
       console.log(this.selectedFilter);
       console.log(this.searchQuery);
       console.log(this.selectedObject);
       var response = [];
-      // this.submitted=false;
-      // this.SelectPlayer=false;
-      // this.SelectCoach=false;
-      // this.SelectTeam=false;
+      this.SelectPlayer=false;
+      this.SelectCoach=false;
+      this.SelectTeam=false;
       this.results = [];
       try {
         // const url = `http://localhost:3000/teams/teamFullDetails/${team_id}`;
@@ -136,40 +151,63 @@ export default {
           this.SelectCoach = true;
           if (this.selectedFilter && this.selectedFilter != "Select a Filter") {
             response = await this.axios.get(
-              `${url}/coach/SearchCoachByName/${this.searchQuery}/filterby${this.selectedFilter}/${this.filterQuery}`
+              `http://localhost:3000/coach/SearchCoachByName/${this.searchQuery}/filterby${this.selectedFilter}/${this.filterQuery}`
             );
           } else {
             response = await this.axios.get(
-              `${url}/coach/SearchCoachByName/${this.searchQuery}`
+              `http://localhost:3000/coach/SearchCoachByName/${this.searchQuery}`
             );
           }
         }
-
+        console.log("154");
+        console.log(this.selectedObject);
         if (this.selectedObject == "Team") {
           this.SelectTeam = true;
+          console.log("tmp");
           response = await this.axios.get(
-            `${url}/teams/teamByName/${searchQuery}`
+            `http://localhost:3000/teams/teamByName/${this.searchQuery}`
           );
         }
         if (response) {
           console.log(response);
           this.results = response.data;
           this.submitted = true;
+          this.SaveQuery();
         }
-
-        // // console.log(response.data);
-        // console.log(this.results);
       } catch (err) {
         console.log(err);
         this.error = true;
         this.results = [];
-        // console.log(err.response.data);
-        // if (err.response.status === 401) {
-        //     console.log(this.form.submitError);
-
-        //      this.form.submitError = err.response.data.message;
       }
     },
+  },
+
+  mounted() {
+    if (sessionStorage.getItem("PrevQuery"))
+    {
+     this.searchQuery=sessionStorage.getItem("PrevQuery")
+    }
+    if (sessionStorage.getItem("PrevselectedFilter")){
+      this.selectedFilter=sessionStorage.getItem("PrevselectedFilter")
+    }
+        if (sessionStorage.getItem("PrevFilter")){
+      this.filterQuery=sessionStorage.getItem("PrevFilter")
+    }
+            if (sessionStorage.getItem("PrevResult")){
+      this.results=JSON.parse(sessionStorage.getItem("PrevResult"));
+    }
+              if (sessionStorage.getItem("PrevselectedObject")){
+      this.selectedObject=sessionStorage.getItem("PrevselectedObject");
+    }
+        if (sessionStorage.getItem("PrevselectPlayer")){
+      this.SelectPlayer=sessionStorage.getItem("PrevselectPlayer");
+    }
+            if (sessionStorage.getItem("PrevselectCoach")){
+      this.SelectCoach=sessionStorage.getItem("PrevselectCoach");
+    }
+                if (sessionStorage.getItem("SelectTeam")){
+      this.SelectTeam=sessionStorage.getItem("SelectTeam");
+    }
   },
 };
 </script>

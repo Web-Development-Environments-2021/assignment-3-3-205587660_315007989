@@ -1,60 +1,78 @@
 <template>
-  <mdb-datatable-2  v-model="data"  />
+
+<mdb-container>
+  <mdb-datatable-2  
+      v-model="data"
+      striped
+      bordered
+      arrows
+      :display="3"/>
+</mdb-container>
 </template>
 
 <script>
-import { mdbDatatable2 } from "mdbvue";
+import { mdbDatatable2,mdbContainer} from "mdbvue";
+
 export default {
   name: "SearchPlayer",
   components: {
     mdbDatatable2,
+    mdbContainer
+  },
+  props: {
+    results: {
+      type: Array,
+      required: true,
+    }
   },
   data() {
     return {
-        props: {
-        FullName: {
-        type: String,
-        required: true
-      },
-        TeamName: {
-        type: String,
-        required: true
-      },
-        Position: {
-        type: String,
-        required: true
-      },
-        Image: {
-        type: String,
-        required: false
-      },
-                rows: [],
-},
       data: {
-        columns: [
-          {
-            label: "FullName",
-            field: "Full Name",
+        rows:[],
+        columns: [],
+        first:true,
+      }};}, 
+  methods: {
+      filterData(dataArr, keys) {
+        let data = dataArr.map(entry => {
+          let filteredEntry = {};
+          keys.forEach(key => {
+            if (key in entry) {
+              filteredEntry[key] = entry[key];
+            }
+          });
+          return filteredEntry;
+        });
+        return data;
+      }
+    },
+    mounted(){
+        let keys = ["name", "team_name","position","image"];
+        let entries = this.results;
+        entries.forEach(element => {
+          console.log(element);
+          if(first){
+          let tmp=element.image;
+          element.image=`<img src= ${tmp}></img>` 
+          }
+          this.first=false;
+        });
+
+      
+        const columns = keys.map(key => {
+          return {
+             label: key.toUpperCase(),
+            field: key,
             sort: true,
-          },
-          {
-            label: "TeamName",
-            field: "Team Name",
-            sort: true,
-          },
-          {
-            label: "Position",
-            field: "Position",
-            sort: true,
-          },
-          {
-            label: "Image",
-            field: "Image",
-          },
-        ],
-        rows: [],
-      },
+            
+          };
+        });
+        //rows
+
+        this.data = {
+          columns,
+          rows: entries
+        }
+      }
     };
-  },
-};
 </script>
