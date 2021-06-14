@@ -2,12 +2,12 @@
   <div>
     <GamePreview
       v-for="g in games"
-      :id="g.game_id"
+      :id="g.gameID"
       :hostTeam="g.homeTeam"
       :guestTeam="g.awayTeam"
       :date="g.gameDate"
       :hour="g.hour"
-      :key="g.game_id"
+      :key="g.gameID"
     ></GamePreview>
   </div>
 </template>

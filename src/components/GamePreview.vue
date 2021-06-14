@@ -55,28 +55,6 @@ export default {
   mounted(){
     console.log("game preview mounted")
   },
-  
-  methods: {
-    async RemoveFav() {
-      try {
-        // var url =`http://localhost:3000/homepage/favoritematches/${this.id}`;
-        // const response = await this.axios.delete(url,{},{});
-        this.$parent.games = this.$parent.games.filter(
-          obj => obj.game_id !== this.id
-        );
-        this.$root.toast(
-          "Removed from favorites", `${this.id} game Removed from favorites `,
-          "success"
-        );
-      } catch (err) {
-        console.log(err);
-        // if()
-      }
-    },
-    handleHover(hovered) {
-      this.isHovered = hovered;
-    }
-  }
 };
 </script>
 

@@ -27,7 +27,8 @@ import {
   InputGroupPlugin,
   IconsPlugin,
   VBHoverPlugin,
-  TooltipPlugin
+  TooltipPlugin,
+  TabsPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -43,7 +44,8 @@ import {
   InputGroupPlugin,
   IconsPlugin,
   VBHoverPlugin,
-  TooltipPlugin
+  TooltipPlugin,
+  TabsPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

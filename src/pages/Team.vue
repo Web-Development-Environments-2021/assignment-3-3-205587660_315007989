@@ -3,7 +3,7 @@
     <b-card img-height="200" img-width="200">
       <b-card-img
         id="photo"
-                class="float-left"
+        class="float-left"
         img-height="200"
         img-width="200"
         :src="Photo"
@@ -14,13 +14,15 @@
         <div :title="id" class="team-title">
           <b> Team Id:</b> {{ id }}
           <h1>{{ TeamName }}</h1>
-                    <FavButton :id="id" Type="team"> </FavButton>
-
-          <!-- <h3>{{ FullName }}</h3> -->
+          <FavButton :id="id" Type="team"> </FavButton>
+          <ul class="team-content">
+            <li>Coach Name: {{ coach_name }}</li>
+          </ul>
         </div>
-        <ul class="team-content">
-          <li>Coach Name: {{ coach_name }}</li>
-        </ul>
+      </b-card-text>
+    </b-card>
+    <b-tabs content-class="mt-3">
+      <b-tab title="Roster" active>
         <b-card-group deck>
           <FavPlayerPreview
             v-for="p in players"
@@ -32,24 +34,62 @@
           >
           </FavPlayerPreview>
         </b-card-group>
-      </b-card-text>
-    </b-card>
+      </b-tab>
+      <b-tab title="Up Coming Games">
+        <GamePreviewDetial
+          v-for="g in new_games"
+          :id="g.gameID"
+          :referee="g.referee"
+          :stadium="g.stadium"
+          :stage="g.stage"
+          :hostTeamID="g.homeTeam"
+          :hostTeam="g.homeTeamName"
+          :guestTeamID="g.awayTeam"
+          :guestTeam="g.awayTeamName"
+          :date="g.gameDate"
+          :hour="g.hour"
+          :key="g.gameID"
+        ></GamePreviewDetial>
+      </b-tab>
+      <b-tab title="Old Games">
+        <GamePreviewDetial
+          v-for="g in old_games"
+          :id="g.gameID"
+          :referee="g.referee"
+          :stadium="g.stadium"
+          :awayScore="g.awayScore"
+          :homeScore="g.homeScore"
+          :stage="g.stage"
+          :hostTeamID="g.homeTeam"
+          :hostTeam="g.homeTeamName"
+          :guestTeamID="g.awayTeam"
+          :guestTeam="g.awayTeamName"
+          :date="g.gameDate"
+          :hour="g.hour"
+          :key="g.gameID"
+        ></GamePreviewDetial
+      ></b-tab>
+    </b-tabs>
   </div>
 </template>
 
 <script>
 import FavPlayerPreview from "../components/FavPlayerPreview.vue";
 import FavButton from "../components/FavButton.vue";
+import GamePreviewDetial from "../components/GamePreviewDetial.vue";
 
 export default {
   name: "FavPlayerPreview",
   components: {
     FavPlayerPreview,
+    GamePreviewDetial,
     FavButton,
   },
   data() {
     return {
       players: [],
+      old_games: [],
+      new_games: [],
       isHovered: false,
     };
   },
@@ -72,7 +112,6 @@ export default {
     this.getTeam();
   },
   methods: {
-
     loadData(data) {
       this.id = data.team_id;
       this.team_name = data.team_name;
@@ -89,14 +128,26 @@ export default {
         console.log(`team ID number ${team_id}`);
         const url = `http://localhost:3000/teams/teamFullDetails/${team_id}`;
         const response = await this.axios.get(url);
-        console.log(response);
-        console.log(response.data.name);
-        // this.FullName=response.data.name
-        console.log(this);
         this.loadData(response.data);
+        console.log(response.data.games);
+
+        this.filterGames(await response.data.games);
       } catch (err) {
         console.log(err);
       }
+    },
+
+    async filterGames(games) {
+      console.log(games);
+      var today = new Date();
+      today = today.toISOString();
+      games.forEach((game) => {
+        if (game.gameDate < today) {
+          this.old_games.push(game);
+        } else {
+          this.new_games.push(game);
+        }
+      });
     },
   },
 };
