@@ -30,6 +30,8 @@ import {
   TooltipPlugin,
   TabsPlugin,
   LinkPlugin,
+  FormTimepickerPlugin,
+  FormTextareaPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -47,7 +49,9 @@ import {
   VBHoverPlugin,
   TooltipPlugin,
   TabsPlugin,
-  LinkPlugin
+  LinkPlugin,
+  FormTimepickerPlugin,
+  FormTextareaPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

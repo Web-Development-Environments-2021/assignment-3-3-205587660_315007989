@@ -42,10 +42,10 @@ const routes = [
     name: "FavPlayers",
     component: () => import("./pages/FavPlayers")
   },
-    {
+  {
     path: "/Players/:id",
     name: "players",
-      component: () => import("./pages/players")
+    component: () => import("./pages/players")
 
   },
   {
@@ -64,6 +64,11 @@ const routes = [
     path: "/AddResult",
     name: "AddResult",
     component: () => import("./pages/AddResult")
+  },
+  {
+    path: "/AddEvent",
+    name: "AddEvent",
+    component: () => import("./pages/AddEvent")
   },
   {
     path: "*",
