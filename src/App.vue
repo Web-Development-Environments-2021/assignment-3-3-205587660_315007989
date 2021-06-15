@@ -33,7 +33,6 @@
             ></b-dropdown-item>
 
           </b-nav-item-dropdown>
-                                        <!-- <b-nav-item :to="{ name: 'About' }">About</b-nav-item> -->
 
           <!-- <b-nav-text>Welcome Guest!</b-nav-text>
           <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
