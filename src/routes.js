@@ -79,6 +79,11 @@ const routes = [
     path: "*",
     name: "notFound",
     component: NotFound
+  },
+  {
+    path: "/game",
+    name: "game",
+    component:()=>import("./pages/AdminPage")
   }
 ];
 
