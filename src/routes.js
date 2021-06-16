@@ -71,6 +71,11 @@ const routes = [
     component: () => import("./pages/AddEvent")
   },
   {
+    path: "/AddGame",
+    name: "AddGame",
+    component: () => import("./pages/AddGame")
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound

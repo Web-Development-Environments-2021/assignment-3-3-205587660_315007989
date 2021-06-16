@@ -32,6 +32,7 @@ import {
   LinkPlugin,
   FormTimepickerPlugin,
   FormTextareaPlugin,
+  FormDatepickerPlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -51,7 +52,8 @@ import {
   TabsPlugin,
   LinkPlugin,
   FormTimepickerPlugin,
-  FormTextareaPlugin
+  FormTextareaPlugin,
+  FormDatepickerPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

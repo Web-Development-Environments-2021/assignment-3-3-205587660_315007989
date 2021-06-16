@@ -13,7 +13,8 @@
 
         <ul class="player-content">
           <li>Full Name: {{ FullName }}</li>
-          <li>        Team Name:        <b-link :to="{ name: 'Team', params: { id: team_id } }">
+          <li>        Team Name:      
+              <b-link :to="{ name: 'Team', params: { id: team_id } }">
           {{ TeamName }}</b-link></li>
           <li>Position: {{ Position }}</li>
           <li>birth_date: {{ birth_date }}</li>
