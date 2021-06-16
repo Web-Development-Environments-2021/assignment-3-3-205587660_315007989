@@ -19,7 +19,10 @@
       </select>
 
       <b-input-group
-        v-if="this.selectedFilter && this.selectedFilter != `Select a Filter`"
+        v-if="
+          (this.selectedFilter && this.selectedFilter != `Select a Filter`) ||
+          this.filterQuery.length > 0
+        "
         prepend="Filter :"
         id="Filter-input"
       >
@@ -38,19 +41,22 @@
       </b-input-group>
 
       <div>
-        <div v-if="(this.submitted && this.results.length == 0) || this.error">
+    <!-- <div v-if="(this.sessionstorage.getItem(`PreviousQuery`))">
+          <span><center>Your Current Search is:</center></span>
+        </div> -->
+        <div v-if="!this.results ||( this.submitted &&this.results.length == 0)">
           <span><center>could not find any results</center></span>
         </div>
         <div
-          v-if="this.results && this.results.length > 0 && this.SelectPlayer"
-        >
+          v-if="
+            (this.submitted &&  this.results && this.results.length > 0 && this.selectType == `Player`) || SelectType === `Player`">
           <SearchPlayer :results="results"> </SearchPlayer>
         </div>
 
-        <div v-if="this.results && this.results.length > 0 && this.SelectCoach">
+        <div v-if="( this.submitted &&  this.results && this.results.length > 0  &&  this.selectType == `Coach`)  || SelectType == `Coach`">
           <SearchCoach :results="results"> </SearchCoach>
         </div>
-        <div v-if="this.results && this.results.length > 0 && this.SelectTeam">
+        <div v-if="(this.submitted &&    this.results && this.results.length > 0 && this.selectType == `Team` ) || SelectType == `Team`">
           <SearchTeam :results="results"> </SearchTeam>
         </div>
       </div>
@@ -68,111 +74,103 @@ import SearchCoach from "../components/SearchCoach.vue";
 import SearchTeam from "../components/SearchTeam.vue";
 
 export default {
-  //   name: 'DatatablePage',
-  // components: {
-  //   mdbDatatable2
-  // },
+
   name: "tmp",
   components: {
     SearchPlayer,
     SearchCoach,
     SearchTeam,
   },
-  // name: "SearchCoach",
-  // components: {
-  //   SearchCoach,
-  // },
-  // name: "SearchTeam",
-  // components: {
-  //   SearchTeam,
-  // },
+
   data() {
     return {
+      //variables that makes the logical connection between object type and types of filter
       objects: { Player: ["Position", "Team"], Coach: ["Team"], Team: [] },
       filters: [],
-      searchQuery: "",
+      searchQuery: "", //variables that change everytime without pressing  the sumbit button
       selectedObject: "",
       selectedFilter: "",
       filterQuery: "",
-      results: [],
+      results: [], //variables that change after pressing the sumbit putton
       submitted: false,
       error: false,
-      SelectPlayer: false,
-      SelectCoach: false,
-      SelectTeam: false,
+      SelectType:"",
+
+      PrevQuery:{ // variable for remmembering previous query
+        objectType:"",
+        query:"",
+        filterType:"",
+        filterDetail:"",
+        results:[],
+      }
+      
     };
   },
   watch: {
     selectedObject: function () {
       this.filters = [];
       this.selectedFilter = "";
+      this.filterQuery="";
       if (this.selectedObject.length > 0) {
         this.filters = this.objects[this.selectedObject];
       }
     },
   },
   methods: {
-    async SaveQuery() {
-      sessionStorage.setItem("PrevQuery", this.searchQuery);
-      sessionStorage.setItem("PrevselectedFilter", this.selectedFilter);
-      sessionStorage.setItem("PrevFilter", this.filterQuery);
-      sessionStorage.setItem("PrevResult", JSON.stringify(this.results));
-      sessionStorage.setItem("PrevselectedObject", this.selectedObject);
-      sessionStorage.setItem("PrevselectPlayer", this.SelectPlayer);
-      sessionStorage.setItem("PrevselectCoach", this.SelectCoach);
-      sessionStorage.setItem("PrevSelectTeam", this.SelectTeam);
+    async SetPrevQueryInMemory(){
+      sessionStorage.setItem("PreviousQuery",JSON.stringify(this.PrevQuery))
+    },
 
+    async SaveQueryDetails() {
+      this.PrevQuery.results=JSON.stringify(this.results);
+      this.PrevQuery.query=this.searchQuery;
+      this.PrevQuery.filterType=this.selectedFilter
+      this.PrevQuery.filterDetail=this.filterQuery
+      this.PrevQuery.objectType=this.selectType
     },
     async Search() {
-      console.log(this.selectedFilter);
-      console.log(this.searchQuery);
-      console.log(this.selectedObject);
       var response = [];
-      this.SelectPlayer=false;
-      this.SelectCoach=false;
-      this.SelectTeam=false;
+      this.error=false;
+      this.selectType = "";
       this.results = [];
       try {
-        // const url = `http://localhost:3000/teams/teamFullDetails/${team_id}`;
-        const url = `http://localhost:3000`;
+        if(!this.searchQuery){
+          this.error=true;
+        }
+        this.PrevQuery.query=this.searchQuery;
+        console.log(this.PrevQuery.query);
         if (this.selectedObject === "Player") {
-          this.SelectPlayer = true;
           if (this.selectedFilter && this.selectedFilter != "Select a Filter") {
-            response = await this.axios.get(
-              `http://localhost:3000/player/SearchPlayerByName/${this.searchQuery}/filterby${this.selectedFilter}/${this.filterQuery}`
-            );
-          } else {
-            response = await this.axios.get(
-              `http://localhost:3000/player/SearchPlayerByName/${this.searchQuery}`
-            );
-          }
+            response = await this.axios.get(`http://localhost:3000/player/SearchPlayerByName/${this.searchQuery}/filterby${this.selectedFilter}/${this.filterQuery}`);
+            } 
+          else {
+            response = await this.axios.get(`http://localhost:3000/player/SearchPlayerByName/${this.searchQuery}`);
+            }
+            if (response && response.data.length>0){this.selectType = "Player";}
         }
         if (this.selectedObject == "Coach") {
-          this.SelectCoach = true;
           if (this.selectedFilter && this.selectedFilter != "Select a Filter") {
             response = await this.axios.get(
               `http://localhost:3000/coach/SearchCoachByName/${this.searchQuery}/filterby${this.selectedFilter}/${this.filterQuery}`
             );
           } else {
-            response = await this.axios.get(
-              `http://localhost:3000/coach/SearchCoachByName/${this.searchQuery}`
-            );
+            response = await this.axios.get( `http://localhost:3000/coach/SearchCoachByName/${this.searchQuery}`);
           }
-        }
-        console.log("154");
-        console.log(this.selectedObject);
+          if (response && response.data.length>0){this.selectType = "Coach";}
+          }
         if (this.selectedObject == "Team") {
-          this.SelectTeam = true;
-          console.log("tmp");
-          response = await this.axios.get(
-            `http://localhost:3000/teams/teamByName/${this.searchQuery}`
-          );
-        }
+          console.log(145);
+          this.selectType = "Team";
+          response = await this.axios.get(`http://localhost:3000/teams/teamByName/${this.searchQuery}`);
+          if (response && response.data.length>0){this.selectType = "Team";}}
         if (response) {
           console.log(response);
           this.results = response.data;
+          // console.log(this.selectType)
+          // console.log(this.results);
           this.submitted = true;
-          this.SaveQuery();
+          this.SaveQueryDetails();
+          this.SetPrevQueryInMemory();
         }
       } catch (err) {
         console.log(err);
@@ -183,31 +181,22 @@ export default {
   },
 
   mounted() {
-    if (sessionStorage.getItem("PrevQuery"))
-    {
-     this.searchQuery=sessionStorage.getItem("PrevQuery")
+    if (this.error){
+      sessionStorage.clear()
     }
-    if (sessionStorage.getItem("PrevselectedFilter")){
-      this.selectedFilter=sessionStorage.getItem("PrevselectedFilter")
-    }
-        if (sessionStorage.getItem("PrevFilter")){
-      this.filterQuery=sessionStorage.getItem("PrevFilter")
-    }
-            if (sessionStorage.getItem("PrevResult")){
-      this.results=JSON.parse(sessionStorage.getItem("PrevResult"));
-    }
-              if (sessionStorage.getItem("PrevselectedObject")){
-      this.selectedObject=sessionStorage.getItem("PrevselectedObject");
-    }
-        if (sessionStorage.getItem("PrevselectPlayer")){
-      this.SelectPlayer=sessionStorage.getItem("PrevselectPlayer");
-    }
-            if (sessionStorage.getItem("PrevselectCoach")){
-      this.SelectCoach=sessionStorage.getItem("PrevselectCoach");
-    }
-                if (sessionStorage.getItem("SelectTeam")){
-      this.SelectTeam=sessionStorage.getItem("SelectTeam");
-    }
+    else{   
+    if (JSON.parse(sessionStorage.getItem("PreviousQuery"))) {
+      var prev=JSON.parse(sessionStorage.getItem("PreviousQuery"))
+      this.submitted = true;
+      this.results= JSON.parse(prev.results)
+      this.filterQuery=prev.filterDetail;
+      this.selectType=prev.objectType;
+      this.searchQuery=prev.query;
+      this.selectedObject=prev.objectType;
+      this.selectedFilter=prev.filterType;
+      this.filterType=prev.filterType;
+
+    }}
   },
 };
 </script>
