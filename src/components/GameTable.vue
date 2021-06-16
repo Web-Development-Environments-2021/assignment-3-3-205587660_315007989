@@ -1,4 +1,5 @@
 <template>
+
 <mdb-container>
   <mdb-datatable-2  
       v-model="data"
@@ -11,8 +12,9 @@
 
 <script>
 import { mdbDatatable2,mdbContainer} from "mdbvue";
+
 export default {
-  name: "SearchCoach",
+  name: "GameTable",
   components: {
     mdbDatatable2,
     mdbContainer
@@ -28,8 +30,7 @@ export default {
       data: {
         rows:[],
         columns: [],
-        first:true,
-      }};},
+      }};}, 
   methods: {
       filterData(dataArr, keys) {
         let data = dataArr.map(entry => {
@@ -45,25 +46,17 @@ export default {
       }
     },
     mounted(){
-        let keys = ["name", "team_name","image"];
+        let keys = ["gameID", "homeTeam","awayTeam","homeScore","awayScore","stadium","gameDate","referee","stage","homeTeamName"
+        ,"awayTeamName","hour"];
         let entries = this.results;
 
-        entries.forEach(element => {
-           let tmp=element.image;
-            //  console.log(tmp);
-           if(element.image){
-             element.image=`<img src= ${tmp}></img>`
-            //  console.log("test")
-            }
- //         element.image=`<img src= ${tmp}></img>` 
-          
-        });
-
+      
         const columns = keys.map(key => {
           return {
-            label: key.toUpperCase(),
+             label: key.toUpperCase(),
             field: key,
-            sort: true
+            sort: true,
+            
           };
         });
         //rows

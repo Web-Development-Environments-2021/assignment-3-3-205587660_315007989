@@ -30,7 +30,6 @@ export default {
       data: {
         rows:[],
         columns: [],
-        first:true,
       }};}, 
   methods: {
       filterData(dataArr, keys) {
@@ -51,11 +50,9 @@ export default {
         let entries = this.results;
         entries.forEach(element => {
           console.log(element);
-          if(first){
           let tmp=element.image;
           element.image=`<img src= ${tmp}></img>` 
-          }
-          this.first=false;
+          
         });
 
       

@@ -47,12 +47,12 @@ export default {
         let keys = ["team_name","logo_path"];
         let entries = this.results;
 
-          entries.forEach(element => {
+        entries.forEach(element => {
           console.log(element);
           let tmp=element.logo_path;
           element.logo_path=`<img src= ${tmp}></img>` 
-        }
-        );
+          
+        });
 
         const columns = keys.map(key => {
           return {
