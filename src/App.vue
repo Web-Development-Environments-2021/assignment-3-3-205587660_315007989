@@ -76,12 +76,13 @@ export default {
           "http://localhost:3000/logout",
           {}
         );
-        this.$root.store.logout();
-        this.$root.toast("Logout", "User logged out successfully", "success");
-        this.$router.push("/").catch(() => {
-          this.$forceUpdate();
-        });
-      } catch (err) {
+      sessionStorage.clear()
+      this.$root.store.logout();
+      this.$root.toast("Logout", "User logged out successfully", "success");
+      this.$router.push("/").catch(() => {
+        this.$forceUpdate();
+      });      
+        } catch (err) {
         console.log(err.response);
         if (err.response.status === 401) {
           this.form.submitError = err.response.data;
