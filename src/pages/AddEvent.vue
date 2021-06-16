@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="title">Add new game</h1>
-    <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
+    <b-form @submit.prevent="onSubmit">
       <b-form-group
         id="input-gameID"
         label-cols-sm="4"
@@ -14,7 +14,7 @@
           :options="old_games_options"
           :state="validateState('gameID')"
         ></b-form-select>
-        <b-form-invalid-feedback v-if="!$v.form.inGameMinute.required">
+        <b-form-invalid-feedback v-if="!$v.form.gameID.required">
           Please choose a game
         </b-form-invalid-feedback>
       </b-form-group>
@@ -86,20 +86,26 @@
       </b-form-group>
 
       <b-form-group
-        id="input-group-Description"
+        id="input-group-EventDescription"
         label-cols-sm="4"
-        label="Description:"
-        label-for="Description"
+        label="EventDescription:"
+        label-for="EventDescription"
       >
         <b-form-textarea
-          id="Description"
-          v-model="$v.form.Description"
+          id="EventDescription"
+          v-model="$v.form.EventDescription.$model"
           placeholder="Enter something..."
           rows="3"
           max-rows="6"
+          :state="validateState('EventDescription')"
         ></b-form-textarea>
       </b-form-group>
-      -->
+      <b-form-invalid-feedback v-if="!$v.form.EventDescription.required">
+        Description is required
+      </b-form-invalid-feedback>
+      <b-form-invalid-feedback v-else-if="$v.form.EventDescription.length">
+        Description should be at least 1 character
+      </b-form-invalid-feedback>
 
       <b-button
         type="submit"
@@ -126,7 +132,12 @@
 </template>
 
 <script>
-import { required, minValue, maxValue } from "vuelidate/lib/validators";
+import {
+  required,
+  minValue,
+  maxValue,
+  minLength,
+} from "vuelidate/lib/validators";
 
 export default {
   name: "AddEventComp",
@@ -154,7 +165,7 @@ export default {
         inGameMinute: "",
         eventType: null,
         eventTime: "",
-        Description: "",
+        EventDescription: "",
       },
       errors: [],
       validated: false,
@@ -166,6 +177,9 @@ export default {
         required,
         length: (u) => minValue(0)(u) && maxValue(120)(u),
       },
+      EventDescription: {
+        required,
+      },
       eventTime: {
         required,
       },
@@ -175,6 +189,7 @@ export default {
       gameID: {
         required,
       },
+
       gameDate: {
         required,
       },
@@ -213,16 +228,31 @@ export default {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
-    async Register() {
+    async Sumbit() {
       try {
-        const response = await this.axios.put(
-          `http://localhost:3000/gamechange/${this.form.gameID}`,
+        
+
+        console.log({
+          gameId: this.form.gameID,
+          eventType: this.form.eventType,
+          gameDate: this.form.gameDate.replaceAll('-',''),
+          gameTime: this.form.eventTime,
+          inGameMinute: this.form.inGameMinute,
+          eventDescription: this.form.EventDescription,
+        });
+        const response = await this.axios.post(
+          `http://localhost:3000/gamechange/${this.form.gameID}/events`,
           {
-            homeScore: this.form.homeScore,
-            awayScore: this.form.awayScore,
+         gameId: this.form.gameID,
+          eventType: this.form.eventType,
+          gameDate: this.form.gameDate.replaceAll('-',''),
+          gameTime: this.form.eventTime,
+          inGameMinute: this.form.inGameMinute,
+          eventDescription: this.form.EventDescription,
           }
         );
         // this.$router.push("/AddResult"); //TODO: CHAGNE IT
+        // response.status()
         this.$root.toast("Success", `Change the score of a game `, "success");
       } catch (err) {
         console.log(err.response);
@@ -235,14 +265,15 @@ export default {
         .find((element) => element.gameID == event)
         .gameDate.substring(0, 10);
     },
-    onRegister() {
-      // console.log("register method called");
+    onSubmit() {
+      console.log("Submit method called");
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
+        console.log("Error");
         return;
       }
-      // console.log("register method go");
-      this.Register();
+      console.log("register method go");
+      this.Sumbit();
     },
   },
 };
