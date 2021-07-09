@@ -9,7 +9,9 @@
           <!-- <div v-if="localStorage.getItem('username') &&localStorage.getItem('username')==admin"> -->
           <div v-if="$root.store.username=='admin'">
           <b-nav-item  :to="{ name: 'AdminPage' }">League Managment</b-nav-item>
+
           </div>
+          <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
 
           <b-nav-item-dropdown right v-if="$root.store.username">
             <template #button-content>Personal </template>

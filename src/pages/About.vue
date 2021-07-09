@@ -1,6 +1,17 @@
 <template>
   <div class="container">
-    <h1>Four Oh Four you didn't</h1>
-    <router-link to="/" exact>ET Go Home</router-link>
-  </div>
+  <img src='@/assets/About.png'> 
+<a  target="_blank" rel="noopener noreferrer" href="https://github.com/Web-Development-Environments-2021/assignment-3-1-205587660_315007989">3-1 Assignment on Github</a>
+<br>
+<a  target="_blank" rel="noopener noreferrer" href="https://github.com/Web-Development-Environments-2021/assignment-3-2-205587660_315007989">3-2 Assignment on Github</a>
+
+   </div>
 </template>
+<script>
+export default{
+
+}
+</script>
+
+<style lang="css">
+</style>

@@ -7,6 +7,11 @@ const routes = [
     component: Main
   },
   {
+    path: "/about",
+    name: "about",
+    component: () => import("./pages/About")
+  },
+  {
     path: "/register",
     name: "register",
     component: () => import("./pages/RegisterPage")
