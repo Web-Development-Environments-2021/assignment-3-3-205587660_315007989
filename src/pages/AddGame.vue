@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1 class="title">Add new game</h1>
     <b-form @submit.prevent="onSubmit">
       <b-form-group
         id="input-gameDate"
@@ -143,7 +142,9 @@
       <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
       <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
     </b-card> -->
+
   </div>
+  
 </template>
 
 <script>

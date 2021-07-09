@@ -27,13 +27,7 @@
     </ul>
     <div v-if="isPast">
       <GameEvent
-        v-for="e in Events"
-        :eventType="e.eventType"
-        :gameDate="e.gameDate"
-        :gameTime="e.gameTime"
-        :inGameMinute="e.inGameMinute"
-        :eventDescription="e.eventDescription"
-        :key="e.eventID"
+      :id="id"
       ></GameEvent>
     </div>
   </div>

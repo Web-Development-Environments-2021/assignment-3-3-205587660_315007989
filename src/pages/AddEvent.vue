@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1 class="title">Add new game</h1>
     <b-form @submit.prevent="onSubmit">
       <b-form-group
         id="input-gameID"

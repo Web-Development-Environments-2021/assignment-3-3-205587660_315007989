@@ -1,14 +1,19 @@
 <template>
-  <div>
-    <b-table striped hover :items="items"></b-table>
-  </div>
+  <mdb-container>
+    <mdb-datatable-2 v-model="data" striped bordered arrows :display="3" />
+<button v-on:click="console.log(432);">Add 1</button>  </mdb-container>
 </template>
 
 <script>
+import { mdbDatatable2, mdbContainer } from "mdbvue";
+import Vue from "vue";
+
 import GameEventButton from "../components/GameEventButton.vue";
 export default {
   name: "GameTable",
   components: {
+    mdbDatatable2,
+    mdbContainer,
   },
   props: {
     results: {
@@ -18,7 +23,9 @@ export default {
   },
   data() {
     return {
-      items: {
+      data: {
+        rows: [],
+        columns: [],
       },
     };
   },
