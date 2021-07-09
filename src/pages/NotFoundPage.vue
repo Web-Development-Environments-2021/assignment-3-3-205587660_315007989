@@ -51,8 +51,8 @@
 </script>
 
 
-<style>
-@import url('https://fonts.googleapis.com/css?family=Dosis:300,400,500');
+<style scoped>
+/* @import url('https://fonts.googleapis.com/css?family=Dosis:300,400,500'); */
 
 @-moz-keyframes rocket-movement { 100% {-moz-transform: translate(1200px,-600px);} }
 @-webkit-keyframes rocket-movement {100% {-webkit-transform: translate(1200px,-600px); } }
@@ -99,17 +99,7 @@
     transform: rotate(-3600deg) !important;
 }
 
-html, body{
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    font-family: 'Dosis', sans-serif;
-    font-weight: 300;
-    -webkit-user-select: none; /* Safari 3.1+ */
-    -moz-user-select: none; /* Firefox 2+ */
-    -ms-user-select: none; /* IE 10+ */
-    user-select: none; /* Standard syntax */
-}
+
 
 .bg-purple{
     background: url(http://salehriaz.com/404Page/img/bg_purple.png);
@@ -133,7 +123,6 @@ html, body{
 
 .navbar-links{
     display: inline-block;
-    float: right;
     margin-right: 15px;
     text-transform: uppercase;
     
@@ -154,24 +143,6 @@ li {
     padding: 0px 15px;
 }
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    letter-spacing : 2px;
-    font-size: 12px;
-    
-    -webkit-transition: all 0.3s ease-in;
-    -moz-transition: all 0.3s ease-in;
-    -ms-transition: all 0.3s ease-in;
-    -o-transition: all 0.3s ease-in;
-    transition: all 0.3s ease-in;
-}
-
-li a:hover {
-    color: #ffcb39;
-}
 
 .btn-request{
     padding: 10px 25px;
@@ -256,9 +227,7 @@ li a:hover {
 */
 }
 
-.earth-moon{
-    
-}
+
 
 .object_astronaut{
     animation: rotate-astronaut 200s infinite linear both alternate;
@@ -344,3 +313,4 @@ li a:hover {
     }
 }
 </style>
+

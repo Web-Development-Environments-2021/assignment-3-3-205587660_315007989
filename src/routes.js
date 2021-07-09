@@ -1,6 +1,5 @@
 import Main from "./pages/MainPage";
 import NotFound from "./pages/NotFoundPage";
-
 const routes = [
   {
     path: "/",
@@ -73,7 +72,19 @@ const routes = [
   {
     path: "/AddGame",
     name: "AddGame",
-    component: () => import("./pages/AddGame")
+    component: () => import("./pages/AddGame"),
+    beforeEnter: (to, from, next) => {
+      const authUser=window.localStorage.getItem('username')
+      console.log(authUser)
+      console.log(32);
+      console.log(to.name);
+      if(to.name == "AddGame" && authUser=="admin"){
+        console.log(3231);
+         next()}
+      
+     else next(false);
+
+    }
   },
   {
     path: "*",
@@ -84,7 +95,24 @@ const routes = [
     path: "/game",
     name: "game",
     component:()=>import("./pages/AdminPage")
-  }
+  },
+  {
+    path: "/AdminPage",
+    name: "AdminPage",
+    component:()=>import("./pages/AdminPage"),
+    beforeEnter: (to, from, next) => {
+      const authUser=window.localStorage.getItem('username')
+      console.log(authUser)
+      console.log(32);
+      console.log(to.name);
+      if(to.name == "AdminPage" && authUser=="admin"){
+        console.log(3231);
+         next()}
+      
+     else next(false);
+
+    }
+  },
 ];
 
 export default routes;

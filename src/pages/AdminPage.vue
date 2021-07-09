@@ -4,10 +4,13 @@
     <div id="app">
 
 
+
   
         <div >
-<!-- <button type="button" @click="GetAllGames" class="btn btn-primary">Get All Games</button> -->
+          <button type="button" class="btn btn-primary" @click="AddGame">Add Game</button>
+          <AddGame>
 
+          </AddGame>
           <GameTable v-if="this.results && this.results.length>0" :results="results"> </GameTable>
   <svg src="https://www.superliga.dk/sites/all/themes/superliga/img/logo-superliga.svg" fluid alt="Responsive image"></svg>
 
@@ -20,12 +23,12 @@
 
 <script>
 import GameTable from "../components/GameTable.vue";
-
+// import AddGame from "../pages/AddGame.vue";
 export default {
 
   name: "games",
   components: {
-GameTable
+GameTable,
   },
 
   data() {
@@ -44,7 +47,9 @@ GameTable
              response = await this.axios.get(`http://localhost:3000/game/allGames`);
           this.results = response.data;
           console.log(response.data)
-  
+    },
+    async AddGame(){
+              this.$router.push("/AddGame");
     } 
 
   },

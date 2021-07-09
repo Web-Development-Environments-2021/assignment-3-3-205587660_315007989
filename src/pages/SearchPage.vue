@@ -185,7 +185,7 @@ export default {
       sessionStorage.clear()
     }
     else{   
-    if (JSON.parse(sessionStorage.getItem("PreviousQuery"))) {
+    if (window.localStorage.getItem('username')&& JSON.parse(sessionStorage.getItem("PreviousQuery"))) {
       var prev=JSON.parse(sessionStorage.getItem("PreviousQuery"))
       this.submitted = true;
       this.results= JSON.parse(prev.results)
