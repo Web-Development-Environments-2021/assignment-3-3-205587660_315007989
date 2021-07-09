@@ -91,14 +91,19 @@ const shared_data = {
   username: localStorage.username,
   // username: "hilla",
   login(username) {
+    sessionStorage.clear()
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
+
   },
   logout() {
     console.log("logout");
     localStorage.removeItem("username");
     this.username = undefined;
+    routes.authenticated=false;
+    sessionStorage.clear()
+
   }
 };
 console.log(shared_data);

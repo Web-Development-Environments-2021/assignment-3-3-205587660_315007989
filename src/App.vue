@@ -6,6 +6,11 @@
         <b-navbar-nav>
           <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
           <b-nav-item :to="{ name: 'LeagueGames' }">LeagueGames</b-nav-item>
+          <!-- <div v-if="localStorage.getItem('username') &&localStorage.getItem('username')==admin"> -->
+          <div v-if="$root.store.username=='admin'">
+          <b-nav-item  :to="{ name: 'AdminPage' }">League Managment</b-nav-item>
+          </div>
+
           <b-nav-item-dropdown right v-if="$root.store.username">
             <template #button-content>Personal </template>
             <b-dropdown-item :to="{ name: 'FavPlayers' }">
@@ -99,7 +104,7 @@ export default {
 @import "@/scss/form-style.scss";
 #app {
   // font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  // -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
