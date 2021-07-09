@@ -57,7 +57,7 @@
     >
       Login failed: {{ form.submitError }}
     </b-alert>
-    
+
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card> -->
@@ -74,58 +74,99 @@ export default {
         username: "",
         password: "",
         submitError: undefined,
-      }
+      },
     };
   },
   validations: {
     form: {
       username: {
-        required, 
+        required,
       },
       password: {
-        required
-      }
-    }
+        required,
+      },
+    },
   },
   methods: {
+
+    // async SetInMemory() {
+    //   let favTeamsP = this.axios.get(
+    //     "http://localhost:3000/homepage/favoriteteam"
+    //   );
+    //   let favPlayersP = this.axios.get(
+    //     "http://localhost:3000/homepage/favoriteplayer"
+    //   );
+    //   let favGamesP = this.axios.get(
+    //     "http://localhost:3000/homepage/favoritematches"
+    //   );
+    //   await Promise.all([favTeamsP, favPlayersP, favGamesP]).then((values) => {
+    //     sessionStorage.setItem("Favteam", JSON.stringify(values[0].data));
+    //     sessionStorage.setItem("Favplayer", JSON.stringify(values[1].data));
+    //     sessionStorage.setItem("Favmatches", JSON.stringify(values[2].data));
+    //   });
+    // },
+    async SetInMemory() {
+            let favGamesP = await this.axios.get(
+        "http://localhost:3000/homepage/favoritematches"
+      );
+      sessionStorage.setItem("Favmatches", JSON.stringify(favGamesP.data));
+
+      let favTeamsP = await this.axios.get(
+        "http://localhost:3000/homepage/favoriteteam"
+      );
+      sessionStorage.setItem("Favteam", JSON.stringify(favTeamsP.data));
+
+      let favPlayersP = await this.axios.get(
+        "http://localhost:3000/homepage/favoriteplayer"
+      );
+      sessionStorage.setItem("Favplayer", JSON.stringify(favPlayersP.data));
+
+
+    },
+
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
     },
     async Login() {
       try {
-        const response = await this.axios.post(
-          "http://localhost:3000/Login",
-          {
-            username: this.form.username,
-            password: this.form.password
-          }        
-        );
+        const response = await this.axios.post("http://localhost:3000/Login", {
+          username: this.form.username,
+          password: this.form.password,
+        });
         // console.log(response);
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
+        this.SetInMemory().then((va)=>{
+        console.log(sessionStorage);
+        this.$emit("forceRerender");
+              this.$forceUpdate();
         this.$router.push("/");
+        });
+
       } catch (err) {
         console.log(err.response);
-        if(err.response.status===401){
-        this.form.submitError = err.response.data;
-   //     console.log(this.form.submitError);
+        if (err.response.status === 401) {
+          this.form.submitError = err.response.data;
+          //     console.log(this.form.submitError);
         }
-  //      this.form.submitError = err.response.data.message;
+        //      this.form.submitError = err.response.data.message;
       }
     },
     onLogin() {
       // console.log("login method called");
       this.form.submitError = undefined;
       this.$v.form.$touch();
+      this.$emit('myCustomEvent')
+
       if (this.$v.form.$anyError) {
         return;
       }
       // console.log("login method go");
       this.Login();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

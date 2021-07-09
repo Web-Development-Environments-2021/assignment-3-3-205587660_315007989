@@ -33,6 +33,9 @@
         <b-form-invalid-feedback v-if="!$v.form.homeTeam.required">
           Home Team type is required
         </b-form-invalid-feedback>
+        <b-form-invalid-feedback v-if="!$v.form.awayTeam.notSame">
+          Away Team and Home team should be diffrent.
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
@@ -49,36 +52,63 @@
         <b-form-invalid-feedback v-if="!$v.form.awayTeam.required">
           Away Team type is required
         </b-form-invalid-feedback>
-                <b-form-invalid-feedback v-if="!$v.form.awayTeam.required">
-          Away Team type is required
+        <b-form-invalid-feedback v-if="!$v.form.awayTeam.notSame">
+          Away Team and Home team should be diffrent.
         </b-form-invalid-feedback>
       </b-form-group>
 
-      <!-- 
       <b-form-group
-        id="input-group-inGameMinute"
-        label-cols-sm="4"
-        label="In game minute:"
-        label-for="inGameMinute"
+        id="input-referees"
+        label="Referee:"
+        label-for="Referee"
+        label-cols-sm="5"
       >
-        <b-form-input
-          id="inGameMinute"
-          v-model="$v.form.inGameMinute.$model"
-          type="text"
-          :state="validateState('inGameMinute')"
-        ></b-form-input>
-        <b-form-invalid-feedback v-if="!$v.form.inGameMinute.required">
-          In game time is required
-        </b-form-invalid-feedback>
-        <b-form-invalid-feedback v-else-if="!$v.form.inGameMinute.length">
-          In game time should be between 0 and 120
+        <b-form-select
+          v-model="form.Referee"
+          :options="Referre_options"
+          :state="validateState('Referee')"
+        ></b-form-select>
+        <b-form-invalid-feedback v-if="!$v.form.Referee.required">
+          Referre is required
         </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
+        id="input-stadium"
+        label="Stadium:"
+        label-for="stadium"
+        label-cols-sm="5"
+      >
+        <b-form-select
+          v-model="form.stadium"
+          :options="stadium_options"
+          :state="validateState('stadium')"
+        ></b-form-select>
+        <b-form-invalid-feedback v-if="!$v.form.stadium.required">
+          Stadium is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-form-group
+        id="input-stage"
+        label="Stage:"
+        label-for="stage"
+        label-cols-sm="5"
+      >
+        <b-form-select
+          v-model="form.stage"
+          :options="stage_options"
+          :state="validateState('stage')"
+        ></b-form-select>
+        <b-form-invalid-feedback v-if="!$v.form.stage.required">
+          Stage is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+  <b-form-group
         id="input-group-eventTime"
-        label-cols-sm="4"
-        label="Event time:"
+        label-cols-sm="5"
+        label="Game time:"
         label-for="eventTime"
       >
         <b-form-timepicker
@@ -91,28 +121,6 @@
           Event time is required
         </b-form-invalid-feedback>
       </b-form-group>
-
-      <b-form-group
-        id="input-group-EventDescription"
-        label-cols-sm="4"
-        label="EventDescription:"
-        label-for="EventDescription"
-      >
-        <b-form-textarea
-          id="EventDescription"
-          v-model="$v.form.EventDescription.$model"
-          placeholder="Enter something..."
-          rows="3"
-          max-rows="6"
-          :state="validateState('EventDescription')"
-        ></b-form-textarea>
-      </b-form-group>
-      <b-form-invalid-feedback v-if="!$v.form.EventDescription.required">
-        Description is required
-      </b-form-invalid-feedback>
-      <b-form-invalid-feedback v-else-if="$v.form.EventDescription.length">
-        Description should be at least 1 character
-      </b-form-invalid-feedback> -->
 
       <b-button
         type="submit"
@@ -141,8 +149,6 @@
 <script>
 import {
   required,
-  minValue,
-  maxValue,
   sameAs,
   not,
 } from "vuelidate/lib/validators";
@@ -157,6 +163,14 @@ export default {
       teams_options: [
         { value: null, text: "Please select a game", disabled: true },
       ],
+      Referre_options: [
+        { value: null, text: "Please select a referre", disabled: true },
+      ],
+      stadium_options: [
+        { value: null, text: "Please select a stadium", disabled: true },
+      ],      stage_options: [
+        { value: null, text: "Please select a stage", disabled: true },
+      ],
       event_type_options: [
         { value: null, text: " Please select event ", disabled: true },
         { value: "Goal", text: " goal event " },
@@ -168,10 +182,11 @@ export default {
       ],
       form: {
         gameID: null,
-        homeTeam: "",
-        awayTeam: "",
-        gameDate: "",
-        inGameMinute: "",
+        homeTeam: null,
+        awayTeam: null,
+        Referee: null,
+        stadium: null,
+        stage: null,
         eventType: null,
         eventTime: "",
         EventDescription: "",
@@ -182,38 +197,72 @@ export default {
   },
   validations: {
     form: {
-      inGameMinute: {
-        required,
-        length: (u) => minValue(0)(u) && maxValue(120)(u),
-      },
-      EventDescription: {
+      Referee: {
         required,
       },
-      eventTime: {
+      stadium: {
         required,
-      },
-      eventType: {
+      }, 
+           stage: {
         required,
       },
       homeTeam: {
         required,
-        notSame: not(sameAs('awayTeam'))
+        notSame: not(sameAs("awayTeam")),
       },
       awayTeam: {
         required,
-                notSame: not(sameAs('homeTeam'))
-
+        notSame: not(sameAs("homeTeam")),
       },
-
       gameDate: {
+        required,
+      },
+            eventTime: {
         required,
       },
     },
   },
   mounted() {
     this.updateTeams();
+    this.updateReffere();
+    this.updateStadium();
+    this.updateStage();
   },
   methods: {
+    async updateReffere() {
+      const response = await this.axios.get(
+        "http://localhost:3000/league/Referees/"
+      );
+      response.data.forEach((element) => {
+        this.Referre_options.push({
+          value: element,
+          text: `Referees name: ${element}`,
+        });
+      });
+    },
+    async updateStadium() {
+      const response = await this.axios.get(
+        "http://localhost:3000/league/Stadiums/"
+      );
+      response.data.forEach((element) => {
+        this.stadium_options.push({
+          value: element,
+          text: `Stadium name: ${element}`,
+        });
+      });
+    },
+   async updateStage() {
+      const response = await this.axios.get(
+        "http://localhost:3000/league/Stages/"
+      );
+      response.data.forEach((element) => {
+        this.stage_options.push({
+          value: element,
+          text: `Stage name: ${element}`,
+        });
+      });
+    },
+
     async updateTeams() {
       try {
         const response = await this.axios.get(
@@ -228,7 +277,6 @@ export default {
     },
     async UpdateOptions() {
       this.teams.forEach((element) => {
-        console.log(element);
         this.teams_options.push({
           value: element.TeamId,
           text: `Team name: ${element.Name}, Team id: ${element.TeamId}`,
@@ -242,28 +290,31 @@ export default {
     },
     async Sumbit() {
       try {
-        console.log({
-          gameId: this.form.gameID,
-          eventType: this.form.eventType,
-          gameDate: this.form.gameDate.replaceAll("-", ""),
-          gameTime: this.form.eventTime,
-          inGameMinute: this.form.inGameMinute,
-          eventDescription: this.form.EventDescription,
-        });
+        var h = this.form.eventTime.replaceAll('-','').substring(0,4);
+        console.log(          {
+            gameDate: this.form.gameDate,
+            homeTeam: this.form.homeTeam,
+            awayTeam: this.form.awayTeam,
+            referee: this.form.Referee,
+            stageName: this.form.stage,
+            stadium: this.form.stadium,
+            hour: h,
+          })
         const response = await this.axios.post(
-          `http://localhost:3000/gamechange/${this.form.gameID}/events`,
+          `http://localhost:3000/gamechange/`,
           {
-            gameId: this.form.gameID,
-            eventType: this.form.eventType,
-            gameDate: this.form.gameDate.replaceAll("-", ""),
-            gameTime: this.form.eventTime,
-            inGameMinute: this.form.inGameMinute,
-            eventDescription: this.form.EventDescription,
+          gameDate: this.form.gameDate,
+            homeTeam: this.form.homeTeam,
+            awayTeam: this.form.awayTeam,
+            referee: this.form.Referee,
+            stageName: this.form.stage,
+            stadium: this.form.stadium,
+            hour: h,
           }
         );
         // this.$router.push("/AddResult"); //TODO: CHAGNE IT
         // response.status()
-        this.$root.toast("Success", `Change the score of a game `, "success");
+        this.$root.toast("Success", `A game added to the system `, "success");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data;

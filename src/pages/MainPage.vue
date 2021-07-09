@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">Main Page</h1>
     <LoginPage v-if="!$root.store.username"></LoginPage>
-    <FavoriteGames v-else></FavoriteGames>
+    <FavoriteGames v-if="$root.store.username"></FavoriteGames>
     <LeagueInfo></LeagueInfo>
   </div>
 </template>
@@ -12,11 +12,24 @@ import LeagueInfo from "../components/LeagueInfo";
 import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 export default {
+  data() {
+    return {
+      componentKey: 0,
+    };
+  },
+  methods: {
+    forceRerender() {
+      console.log("DASfasdfasdfsadfgsadf");
+      this.componentKey += 1;
+      this.$forceUpdate();
+    }
+  },
   components: {
     LeagueInfo, 
     LoginPage, 
     FavoriteGames
   }
+
 };
 </script>
 

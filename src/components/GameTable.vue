@@ -53,7 +53,7 @@ export default {
       
         const columns = keys.map(key => {
           return {
-             label: key.toUpperCase(),
+           label: key.toUpperCase(),
             field: key,
             sort: true,
             

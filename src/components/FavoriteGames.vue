@@ -14,6 +14,7 @@
           :hour="g.hour"
           :key="g.gameID"
     ></GamePreviewDetial>
+
   </div>
 </template>
 
@@ -31,18 +32,17 @@ export default {
   },
   methods: {
     async updateGames() {
-      console.log("response");
       try {
-        const response = await this.axios.get(
-          "http://localhost:3000/homepage/favoritematches"
-        );
-        console.log(response.data);
-        var today = new Date();
+        const response=JSON.parse(sessionStorage.getItem("Favmatches"));
+        if (!response){
+          response=[];
+        }
+        console.log("Favmatches",response);
+        let today = new Date();
         today = today.toISOString();
-        const old_games = response.data.filter((game) => game.gameDate < today);
-        this.games = response.data.filter((game) => game.gameDate > today);
-
-        console.log(old_games);
+        const old_games = response.filter((game) => game.gameDate < today);
+        this.games = response.filter((game) => game.gameDate > today);
+        console.log("oldgame",old_games);
         if (old_games.length > 0) {
           this.$root.toast(
             "Removed from favorites",
@@ -50,8 +50,9 @@ export default {
             "success"
           );
           old_games.forEach(async (element) => {
-            var url = `http://localhost:3000/homepage/favoritematches/${element.game_id}`;
-            var response1 = await this.axios.delete(url, {}, {});
+            console.log(element);
+            let url = `http://localhost:3000/homepage/favoritematches/${element.gameID}`;
+            let response1 = await this.axios.delete(url);
           });
         }
       } catch (error) {
