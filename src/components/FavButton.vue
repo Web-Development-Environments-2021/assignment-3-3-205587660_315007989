@@ -1,5 +1,5 @@
 <template>
-  <div class="Fav-Button">
+  <b-div v-if="$root.store.username" class="Fav-Button">
     <b-div v-if="isLiked" v-b-hover="handleHover">
       <b-icon
         v-if="isHovered"
@@ -22,7 +22,7 @@
       </b-icon>
       <b-icon v-else id="heart" icon="heart"></b-icon>
     </b-div>
-  </div>
+  </b-div >
 </template>
 
 <script>
@@ -45,22 +45,26 @@ export default {
     },
   },
   async mounted() {
-    var url_get = `http://localhost:3000/homepage/favorite${this.Type}`;
-    const response_get = await this.axios.get(url_get);
+    console.log("Fav" + this.Type);
+    const response_get = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
+    console.log(response_get);
+
     if (
       this.Type === "matches" &&
-      response_get.data.find((element) => (element.gameID==this.id||element.game_id == this.id))
+      response_get.find(
+        (element) => element.gameID == this.id || element.game_id == this.id
+      )
     ) {
       console.log("liked game");
       this.isLiked = true;
     } else if (
       this.Type === "team" &&
-      response_get.data.find((element) => element.team_id == this.id)
+      response_get.find((element) => element.team_id == this.id)
     ) {
       this.isLiked = true;
     } else if (
       this.Type === "player" &&
-     response_get.data.find((element) => element.player_id == this.id)
+      response_get.find((element) => element.player_id == this.id)
     ) {
       this.isLiked = true;
     } else {
@@ -77,6 +81,20 @@ export default {
           `Removed this ${this.Type} from favorites `,
           "success"
         );
+        if (this.Type == "matches") {
+          const old_fav = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
+          const new_fav = old_fav.filter((elem) => elem.game_id != this.id);
+          sessionStorage.setItem("Favmatches", JSON.stringify(new_fav));
+        }
+        if (this.Type == "player") {
+          const old_fav = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
+          const new_fav = old_fav.filter((elem) => elem.player_id != this.id);
+          sessionStorage.setItem("Favplayer", JSON.stringify(new_fav));
+        } else {
+          const old_fav = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
+          const new_fav = old_fav.filter((elem) => elem.team_id != this.id);
+          sessionStorage.setItem("Favteam", JSON.stringify(new_fav));
+        }
         this.isLiked = false;
       } catch (err) {
         console.log(err);
@@ -84,13 +102,17 @@ export default {
     },
     async addFav() {
       try {
-        var url = `http://localhost:3000/homepage/favorite${this.Type}/${this.id}`;
+        let url = `http://localhost:3000/homepage/favorite${this.Type}/${this.id}`;
         const response = await this.axios.put(url);
         this.$root.toast(
           "added to favorites",
           `added this ${this.Type} to favorites `,
           "success"
         );
+        url = `http://localhost:3000/homepage/favorite${this.Type}`;
+        const response_update = await this.axios.get(url);
+        sessionStorage.setItem("Fav" + this.Type, JSON.stringify(response_update.data));
+
         this.isLiked = true;
       } catch (err) {
         console.log(err);

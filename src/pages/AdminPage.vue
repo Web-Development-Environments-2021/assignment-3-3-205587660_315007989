@@ -1,57 +1,77 @@
 <template>
   <div>
-    <h1 class="title">All Games </h1>
+    <h1 class="title">All Games</h1>
     <div id="app">
+      <div>
+        <b-button v-b-modal="'my-modal'">Add new game</b-button>
+        <b-modal id="my-modal">
+          <template #modal-title>
+            Add Game
+          </template>
+          <AddGame> </AddGame
+        ></b-modal>
+
+        <b-button v-b-modal="'score-modal'">Update Score</b-button>
+        <b-modal id="score-modal">
+          <template #modal-title>
+            Update Score
+          </template>
+          <AddResult> </AddResult
+        ></b-modal>
+
+        <b-button v-b-modal="'add-event'">Add Event to game</b-button>
+        <b-modal id="add-event">
+          <template #modal-title>
+            Add Event
+          </template>
+          <AddEvent> </AddEvent
+        ></b-modal>
 
 
-
-  
-        <div >
-          <button type="button" class="btn btn-primary" @click="AddGame">Add Game</button>
-          <AddGame>
-
-          </AddGame>
-          <GameTable v-if="this.results && this.results.length>0" :results="results"> </GameTable>
-  <svg src="https://www.superliga.dk/sites/all/themes/superliga/img/logo-superliga.svg" fluid alt="Responsive image"></svg>
-
-        </div>
+        <GameTable
+          v-if="this.results && this.results.length > 0"
+          :results="results"
+        >
+        </GameTable>
+        <svg
+          src="https://www.superliga.dk/sites/all/themes/superliga/img/logo-superliga.svg"
+          fluid
+          alt="Responsive image"
+        ></svg>
       </div>
     </div>
-
+  </div>
 </template>
-
 
 <script>
 import GameTable from "../components/GameTable.vue";
-// import AddGame from "../pages/AddGame.vue";
+import AddGame from "../pages/AddGame.vue";
+import AddResult from "../pages/AddResult.vue";
+import AddEvent from "../pages/AddEvent.vue";
 export default {
-
   name: "games",
   components: {
-GameTable,
+    GameTable,
+    AddGame,
+    AddResult,
+    AddEvent
   },
 
   data() {
     return {
-        results:[],
-      }
-      
-    
+      results: [],
+    };
   },
-    mounted() {
-        this.GetAllGames();
-},
+  mounted() {
+    this.GetAllGames();
+  },
   methods: {
-         async GetAllGames() {
-             var response=[];
-             response = await this.axios.get(`http://localhost:3000/game/allGames`);
-          this.results = response.data;
-          console.log(response.data)
+    async GetAllGames() {
+      var response = [];
+      response = await this.axios.get(`http://localhost:3000/game/allGames`);
+      this.results = response.data;
+      console.log(response.data);
     },
-    async AddGame(){
-              this.$router.push("/AddGame");
-    } 
-
   },
 };
 </script>

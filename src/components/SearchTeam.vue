@@ -46,9 +46,10 @@ export default {
     mounted(){
         let keys = ["team_name","logo_path"];
         let entries = this.results;
-
         entries.forEach(element => {
           console.log(element);
+          element.team_name= `<a href="#/Team/${element.team_id}" class="" target="_self"> ${element.team_name}</a>`;
+
           let tmp=element.logo_path;
           element.logo_path=`<img src= ${tmp}></img>` 
           

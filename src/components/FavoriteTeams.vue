@@ -27,9 +27,7 @@ export default {
     async updateTeams(){
       console.log("response");
       try {
-        const response = await this.axios.get("http://localhost:3000/homepage/favoriteteam");
-        this.teams= response.data;
-
+        this.teams=JSON.parse(sessionStorage.getItem("Favteam"));
       } catch (error) {
         console.log("error in update teams")
         console.log(error);

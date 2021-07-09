@@ -28,9 +28,7 @@ export default {
     async updatePlayers(){
       console.log("response");
       try {
-        const response = await this.axios.get("http://localhost:3000/homepage/favoriteplayer");
-        this.players= response.data;
-
+        this.players=JSON.parse(sessionStorage.getItem("Favplayer"));
       } catch (error) {
         console.log("error in update players")
         console.log(error);

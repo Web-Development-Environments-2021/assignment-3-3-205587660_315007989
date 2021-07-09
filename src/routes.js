@@ -64,6 +64,7 @@ const routes = [
     component: () => import("./pages/Team")
 
   },
+
   {
     path: "/AddResult",
     name: "AddResult",
