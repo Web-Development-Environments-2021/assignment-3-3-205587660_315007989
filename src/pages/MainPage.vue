@@ -10,13 +10,13 @@
     <div>
 
       <div id="Login_Wrapper" v-if="!$root.store.username">
-        <LoginPage id="Login"></LoginPage>
-      </div>
+        <LoginPage @myEventName=forceRerender id="Login"></LoginPage>
+      </div> 
     </div>
     <h1 id="League_Info_titile" class="title">League Info</h1>
     <h1 v-if="$root.store.username" id="Favorite_Games_titile" class="title">Favorite Games</h1>
     <div id="games_Wrapper" v-if="$root.store.username">
-      <FavoriteGamesMain id="games"></FavoriteGamesMain>
+      <FavoriteGamesMain :key="componentKey" id="games"></FavoriteGamesMain>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
   name: "Main Page",
   data() {
     return {
-      username: "",
+      username: "dafsd afdfsad",
       componentKey: 0,
     };
   },

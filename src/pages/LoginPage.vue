@@ -119,22 +119,26 @@ export default {
         // console.log(response);
         // this.$root.loggedIn = true;
         this.$root.store.login(this.form.username);
-        const t= await this.SetInMemory();
-        this.$emit(`myEventName`, this.form.username);
-        this.$router.push("/");
+        const t = await this.SetInMemory();
+        this.$emit(`myEventName`);
+        console.log(this.$router.currentRoute);
+        console.log(this.$router.currentRoute.name);
+        if (this.$router.currentRoute.name == "login") {
+          this.$router.push("/");
+        } else {
+          this.$router.go(this.$router.currentRoute);
+        }
       } catch (err) {
         console.log(err.response);
         if (err.response.status === 401) {
           this.form.submitError = err.response.data;
-          //     console.log(this.form.submitError);
         }
-        //      this.form.submitError = err.response.data.message;
       }
     },
     async onLogin() {
       this.form.submitError = undefined;
       this.$v.form.$touch();
-      const t= await this.Login();
+      const t = await this.Login();
 
       this.$emit("myCustomEvent");
 

@@ -123,7 +123,6 @@ export default {
         }
         element.homeTeamName = `<a href="#/Team/${element.homeTeam}" class="" target="_self"> ${element.homeTeamName}</a>`;
         element.awayTeamName = `<a href="#/Team/${element.awayTeam}" class="" target="_self"> ${element.awayTeamName}</a>`;
-
         element.gameDate = element.gameDate.substring(0, 10);
         element.hour = element.hour.substring(11, 16);
       });

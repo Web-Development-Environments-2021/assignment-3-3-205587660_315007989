@@ -1,6 +1,10 @@
 <template>
   <div>
       <carousel id="car" :per-page="1" :paginationEnabled="false">
+                <slide v-if="games.length == 0">
+                  <h1 id= "title" color=white>Favorite Games preview will be shown here</h1>
+        </slide>
+
         <slide v-if="games.length > 0">
           <GamePreviewDetial
             :id="games[0].gameID"
@@ -111,7 +115,9 @@ export default {
 </script>
 
 <style>
-
+#title{
+  color: aquamarine;
+}
 #cont {
   display: flex;
   flex-wrap: wrap;

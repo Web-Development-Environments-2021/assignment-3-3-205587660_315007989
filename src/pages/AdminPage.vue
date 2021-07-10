@@ -64,7 +64,7 @@ export default {
       console.log(team)
       var maxA = team.reduce((a,b)=>a.gameID>b.gameID?a:b); // 30 chars time complexity:  O(n)
       console.log("newHame", maxA);
-
+      
       this.results.push(maxA);
     },
     async forceRerender(gameid, homescore, awayscore) {
