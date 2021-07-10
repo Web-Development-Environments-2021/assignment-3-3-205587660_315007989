@@ -1,5 +1,5 @@
 <template>
-  <div class="team-preview">
+  <div class="container">
     <b-card img-height="200" img-width="200">
       <b-card-img
         id="photo"
@@ -29,50 +29,55 @@
     <b-tabs content-class="mt-3">
       <b-tab title="Roster" active>
         <b-card-group deck>
-          <FavPlayerPreview
-            v-for="p in players"
-            :id="p.player_id"
-            :FullName="p.name"
-            :Photo="p.image"
-            :Position="p.position"
-            :key="p.player_id"
-          >
-          </FavPlayerPreview>
+          <div class="cont">
+            <FavPlayerPreview
+              v-for="p in players"
+              :id="p.player_id"
+              :FullName="p.name"
+              :Photo="p.image"
+              :Position="p.position"
+              :key="p.player_id"
+            >
+            </FavPlayerPreview>
+          </div>
         </b-card-group>
       </b-tab>
       <b-tab title="Up Coming Games">
-        <GamePreviewDetial
-          v-for="g in new_games"
-          :id="g.gameID"
-          :referee="g.referee"
-          :stadium="g.stadium"
-          :stage="g.stage"
-          :hostTeamID="g.homeTeam"
-          :hostTeam="g.homeTeamName"
-          :guestTeamID="g.awayTeam"
-          :guestTeam="g.awayTeamName"
-          :date="g.gameDate"
-          :hour="g.hour"
-          :key="g.gameID"
-        ></GamePreviewDetial>
+        <div class="cont">
+          <GamePreviewDetial
+            v-for="g in new_games"
+            :id="g.gameID"
+            :referee="g.referee"
+            :stadium="g.stadium"
+            :stage="g.stage"
+            :hostTeamID="g.homeTeam"
+            :hostTeam="g.homeTeamName"
+            :guestTeamID="g.awayTeam"
+            :guestTeam="g.awayTeamName"
+            :date="g.gameDate"
+            :hour="g.hour"
+            :key="g.gameID"
+          ></GamePreviewDetial>
+        </div>
       </b-tab>
       <b-tab title="Old Games">
-        <GamePreviewDetial
-          v-for="g in old_games"
-          :id="g.gameID"
-          :referee="g.referee"
-          :stadium="g.stadium"
-          :awayScore="g.awayScore"
-          :homeScore="g.homeScore"
-          :stage="g.stage"
-          :hostTeamID="g.homeTeam"
-          :hostTeam="g.homeTeamName"
-          :guestTeamID="g.awayTeam"
-          :guestTeam="g.awayTeamName"
-          :date="g.gameDate"
-          :hour="g.hour"
-          :key="g.gameID"
-        ></GamePreviewDetial
+        <div class="cont">
+          <GamePreviewDetial
+            v-for="g in old_games"
+            :id="g.gameID"
+            :referee="g.referee"
+            :stadium="g.stadium"
+            :awayScore="g.awayScore"
+            :homeScore="g.homeScore"
+            :stage="g.stage"
+            :hostTeamID="g.homeTeam"
+            :hostTeam="g.homeTeamName"
+            :guestTeamID="g.awayTeam"
+            :guestTeam="g.awayTeamName"
+            :date="g.gameDate"
+            :hour="g.hour"
+            :key="g.gameID"
+          ></GamePreviewDetial></div
       ></b-tab>
     </b-tabs>
   </div>
@@ -145,12 +150,22 @@ export default {
           this.new_games.push(game);
         }
       });
+      this.new_games.sort((a,b) => (a.gameDate > b.gameDate) ? 1 : ((b.gameDate > a.gameDate) ? -1 : 0))
+      this.old_games.sort((a,b) => (a.gameDate > b.gameDate) ? 1 : ((b.gameDate > a.gameDate) ? -1 : 0))
+
     },
   },
 };
 </script>
 
 <style>
+.cont {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+
 .team-preview {
   display: inline-block;
   width: 100%;

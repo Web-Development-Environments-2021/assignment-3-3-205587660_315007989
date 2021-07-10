@@ -1,6 +1,6 @@
 <template>
-  <b-div v-if="$root.store.username" class="Fav-Button">
-    <b-div v-if="isLiked" v-b-hover="handleHover">
+  <div v-if="$root.store.username" class="Fav-Button">
+    <div v-if="isLiked" v-b-hover="handleHover">
       <b-icon
         v-if="isHovered"
         v-b-tooltip.hover
@@ -10,8 +10,8 @@
       >
       </b-icon>
       <b-icon v-else id="heart" icon="heart-fill"></b-icon>
-    </b-div>
-    <b-div v-else v-b-hover="handleHover">
+    </div>
+    <div v-else v-b-hover="handleHover">
       <b-icon
         v-if="isHovered"
         v-b-tooltip.hover
@@ -21,8 +21,8 @@
       >
       </b-icon>
       <b-icon v-else id="heart" icon="heart"></b-icon>
-    </b-div>
-  </b-div >
+    </div>
+  </div >
 </template>
 
 <script>
@@ -125,6 +125,9 @@ export default {
 </script>
 
 <style>
+.Fav-Button{
+  display: inline-block;
+}
 .player-preview {
   display: inline-block;
   width: 500px;

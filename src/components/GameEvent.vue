@@ -30,6 +30,8 @@ export default {
         const response_get = await this.axios.get(url_get);
 
         let eventes = response_get.data;
+                console.log(this.eventes)
+
         eventes = eventes.sort((a, b) =>
           a.inGameMinute > b.inGameMinute
             ? 1

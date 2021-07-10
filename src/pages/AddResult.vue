@@ -152,6 +152,7 @@ export default {
     },
     async Sumbit() {
       try {
+        console.log(this.gameID)
         const response = await this.axios.put(
           `http://localhost:3000/gamechange/${this.gameID}`,
           {

@@ -29,55 +29,32 @@
           <h5>stage: {{ stage }}</h5>
           <h5>date: {{ datePrint }}</h5>
           <h5>time: {{ timePrint }}</h5>
+          <b-button v-if="isPast" v-b-modal="infoModal.id">Show Modal</b-button>
+          <b-modal :id="infoModal.id" title="Game Event">
+            <GameEvent v-if="isPast" :id="game_id"></GameEvent>
+          </b-modal>
         </div>
       </figcaption>
     </figure>
   </div>
-
-  <!-- <div class="game-preview">
-    <div :title="id" class="game-title">
-      <b>Game Id:</b> {{ id }}
-
-      <FavButton v-if="!isPast" :id="id" Type="matches"> </FavButton>
-    </div>
-    <ul class="game-content">
-      <li>
-        host:
-        <b-link :to="{ name: 'Team', params: { id: hostTeamID } }">
-          {{ hostTeam }}</b-link
-        >
-      </li>
-      <li>
-        guest:
-        <b-link :to="{ name: 'Team', params: { id: guestTeamID } }">
-          {{ guestTeam }}</b-link
-        >
-      </li>
-      <li v-if="isPast">score: {{ homeScore }}:{{ awayScore }}</li>
-      <li>referee: {{ referee }}</li>
-      <li>stadium: {{ stadium }}</li>
-      <li>stage: {{ stage }}</li>
-      <li>date:  {{datePrint}}</li>
-      <li>time: {{ timePrint }}</li>
-    </ul>
-    <div v-if="isPast">
-      <GameEvent
-      :id="id"
-      ></GameEvent>
-    </div>
-  </div> -->
 </template>
 
 <script>
 import FavButton from "./FavButton.vue";
-// import GameEvent from "./GameEvent.vue";
+import GameEvent from "./GameEvent.vue";
 export default {
   data() {
     return {
       Events: [],
+      game_id: "",
       isPast: true,
-      datePrint: "1",
-      timePrint: "2",
+      datePrint: "",
+      timePrint: "",
+      infoModal: {
+        id: `info-modal${this.id}`,
+        title: "",
+        content: "",
+      },
     };
   },
 
@@ -134,7 +111,7 @@ export default {
   },
   components: {
     FavButton,
-    // GameEvent,
+    GameEvent,
   },
   methods: {
     async setIsPast() {
@@ -160,6 +137,7 @@ export default {
   },
   mounted() {
     console.log("game preview mounted");
+    this.game_id = this.id;
     this.setIsPast();
     this.getEvents();
   },

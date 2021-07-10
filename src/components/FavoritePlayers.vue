@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #cont {
   display: flex;
   flex-wrap: wrap;

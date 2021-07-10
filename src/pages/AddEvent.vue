@@ -112,8 +112,6 @@
         <b-form-invalid-feedback v-else-if="$v.form.EventDescription.length">
           Description should be at least 1 character
         </b-form-invalid-feedback>
-
-
       </b-form>
       <b-alert
         class="mt-2"
@@ -231,8 +229,27 @@ export default {
     },
     async Sumbit() {
       try {
-        console.log( this.form.eventTime);
+        
 
+        console.log({
+          gameId: this.form.gameID,
+          eventType: this.form.eventType,
+          gameDate: this.form.gameDate.replaceAll('-',''),
+          gameTime: this.form.eventTime,
+          inGameMinute: this.form.inGameMinute,
+          eventDescription: this.form.EventDescription,
+        });
+        const response = await this.axios.post(
+          `http://localhost:3000/gamechange/${this.form.gameID}/events`,
+          {
+         gameId: this.form.gameID,
+          eventType: this.form.eventType,
+          gameDate: this.form.gameDate.replaceAll('-',''),
+          gameTime: this.form.eventTime,
+          inGameMinute: this.form.inGameMinute,
+          eventDescription: this.form.EventDescription,
+          }
+        );
         this.$root.toast("Success", `Change the score of a game `, "success");
       } catch (err) {
         console.log(err.response);
@@ -266,4 +283,3 @@ export default {
   },
 };
 </script>
-
