@@ -45,12 +45,12 @@
   border-color: transparent transparent transparent #141414;
 }
 .snip1336 figcaption a {
-  padding: 5px;
+  /* padding: 5px; */
   /* border: 1px solid #ffffff; */
   color: inherit;
-  font-size: 0.7em;
+  font-size: 0.8em;
   text-transform: uppercase;
-  margin: 10px 0;
+  /* margin: px 0; */
   display: inline-block;
   /* opacity: 0.65; */
   width: 47%;

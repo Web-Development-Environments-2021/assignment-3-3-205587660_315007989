@@ -1,5 +1,6 @@
 <template>
   <div>
+      <div id="cont">
     <GamePreviewDetial
          v-for="g in games"
           :id="g.gameID"
@@ -14,7 +15,7 @@
           :hour="g.hour"
           :key="g.gameID"
     ></GamePreviewDetial>
-
+  </div>
   </div>
 </template>
 
@@ -71,4 +72,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#cont {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+</style>

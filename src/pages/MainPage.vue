@@ -33,7 +33,7 @@ export default {
   components: {
     LeagueInfo, 
     LoginPage, 
-    FavoriteGames
+    // FavoriteGames
   },
   computed:{
     isOLD: function(){
