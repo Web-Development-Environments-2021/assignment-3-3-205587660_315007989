@@ -43,10 +43,8 @@ export default {
 };
 </script>
 
-<style scoped>
-#cont {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-}
+<style>
+@import '../assets/styles/Players.css';
+
+
 </style>

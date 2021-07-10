@@ -1,9 +1,9 @@
 <template>
   <div id="favCont">
     <figure class="snip1336">
-      <img src="@/assets/testpic.jpg" />
+      <img src="@/assets/testpic.jpg" >
       <figcaption>
-        <img :src="Photo" alt="profile-sample4" class="profile" />
+        <img :src="Photo" alt="profile-sample4" class="profile" :to="{ name: 'search' }">
         <div :title="id" class="coach-title">
           <h5>
             Name:<b-link :to="{ name: 'players', params: { id: id } }">{{

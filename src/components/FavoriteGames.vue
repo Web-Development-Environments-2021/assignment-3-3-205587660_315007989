@@ -1,7 +1,6 @@
 <template>
   <div>
       <div id="cont">
-        <h1>Favorite Games:</h1>
     <GamePreviewDetial
          v-for="g in games"
           :id="g.gameID"
@@ -41,6 +40,9 @@ export default {
           console.log(sessionStorage[0])
           response=[];
         }
+        else{
+                  response=response.sort((a,b) => (a.gameDate > b.gameDate) ? 1 : ((b.gameDate > a.gameDate) ? -1 : 0))
+        }
         let today = new Date();
         today = today.toISOString();
         const old_games = response.filter((game) => game.gameDate < today);
@@ -73,7 +75,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style >
 #cont {
   display: flex;
   flex-wrap: wrap;

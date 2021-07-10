@@ -1,6 +1,6 @@
 <template>
-  <b-div v-if="$root.store.username" class="Fav-Button">
-    <b-div v-if="isLiked" v-b-hover="handleHover">
+  <div v-if="$root.store.username" class="Fav-Button">
+    <div v-if="isLiked" v-b-hover="handleHover">
       <b-icon
         v-if="isHovered"
         v-b-tooltip.hover
@@ -10,8 +10,8 @@
       >
       </b-icon>
       <b-icon v-else id="heart" icon="heart-fill"></b-icon>
-    </b-div>
-    <b-div v-else v-b-hover="handleHover">
+    </div>
+    <div v-else v-b-hover="handleHover">
       <b-icon
         v-if="isHovered"
         v-b-tooltip.hover
@@ -21,8 +21,8 @@
       >
       </b-icon>
       <b-icon v-else id="heart" icon="heart"></b-icon>
-    </b-div>
-  </b-div >
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,8 +46,7 @@ export default {
   },
   async mounted() {
     const response_get = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
-
-
+    console.log("tet",this.Type);
     if (
       this.Type === "matches" &&
       response_get.find(
@@ -110,7 +109,10 @@ export default {
         );
         url = `http://localhost:3000/homepage/favorite${this.Type}`;
         const response_update = await this.axios.get(url);
-        sessionStorage.setItem("Fav" + this.Type, JSON.stringify(response_update.data));
+        sessionStorage.setItem(
+          "Fav" + this.Type,
+          JSON.stringify(response_update.data)
+        );
 
         this.isLiked = true;
       } catch (err) {
@@ -125,6 +127,9 @@ export default {
 </script>
 
 <style>
+.Fav-Button {
+  display: inline-block;
+}
 .player-preview {
   display: inline-block;
   width: 500px;

@@ -92,12 +92,6 @@ export default {
       required: true,
     },
   },
-  watch:{
-    results: function(newVal, oldVal) { // watch it
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
-    }
-  },
-
   methods: {
     isOld(element){
       var today = new Date();

@@ -1,38 +1,29 @@
 <template>
-
-
-<b-container id="main">
-  <img id="bg" src='@/assets/1348783.jpg'>
-    <b-row>
-          <b-col id="left">
+  <div>
+    <img id="bg" src="@/assets/1348783.jpg" />
 
     <LeagueInfo id="LeagueInfo">
-        <h1 class="title">League Info</h1>
-      
+      <h1 class="title">League Info</h1>
     </LeagueInfo>
-    </b-col>
-    <b-col id="right">
-      <!-- <h1 v-if="!$root.store.username">Favorite Games:</h1> -->
-      <!-- <h1 v-else> Register</h1> -->
-      <div id="Login_Wrapper">
-    <LoginPage id="Login" v-if="!$root.store.username"></LoginPage>
+    <!-- <h1 v-if="!$root.store.username">Favorite Games:</h1> -->
+    <!-- <h1 v-else> Register</h1> -->
+    <div>
+
+      <div id="Login_Wrapper" v-if="!$root.store.username">
+        <LoginPage id="Login"></LoginPage>
       </div>
-
-         <FavoriteGames v-if="$root.store.username"></FavoriteGames>
-
-    </b-col>
-
-    </b-row>
-
-
-    </b-container>
-
-
+    </div>
+    <h1 id="League_Info_titile" class="title">League Info</h1>
+    <h1 v-if="$root.store.username" id="Favorite_Games_titile" class="title">Favorite Games</h1>
+    <div id="games_Wrapper" v-if="$root.store.username">
+      <FavoriteGamesMain id="games"></FavoriteGamesMain>
+    </div>
+  </div>
 </template>
 
 <script>
 import LeagueInfo from "../components/LeagueInfo";
- import FavoriteGames from "../components/FavoriteGames";
+import FavoriteGamesMain from "../components/FavoriteGamesMain";
 import LoginPage from "../pages/LoginPage";
 export default {
   name: "Main Page",
@@ -44,76 +35,86 @@ export default {
   },
   methods: {
     forceRerender() {
-      console.log("Dfadsfsadfsadf")
-      this.componentKey+=1;
-    }
+      console.log("Dfadsfsadfsadf");
+      this.componentKey += 1;
+    },
   },
   components: {
-    LeagueInfo, 
-    LoginPage, 
-     FavoriteGames
+    LeagueInfo,
+    LoginPage,
+    FavoriteGamesMain,
   },
-  computed:{
-    isOLD: function(){
-      return $root.store.username!=""
-    }
-  }
-
+  computed: {
+    isOLD: function() {
+      return $root.store.username != "";
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.container{
-  height:100%;
-  width: 100%;
-  margin-left:0%;
-  margin-right: 0%;
-  padding-left: 0%;
-  padding-right:0%;
-}
-// #RightPart{
-//   float:left;
-// }
-// #main{
-//   //  background-image: url("../assets/1348783.jpg");
-//       // background-size: cover;
-
-// }
-#main{
-  height:100vh;
-  width:100vw;
-}
-
-#bg{
-  width: 99vw;
-  height:92vh;
-  background-size: cover;
-    z-index:0;
-
-  // margin-right:40%;
-}
-#LeagueInfo{
-  position: relative;
-  bottom: 700px;
-  opacity: 0.75;
-
-}
-#Login{
-  position: relative;
-  bottom: 700px;
-  left: 40px;
-}
-#Login_Wrapper{
-  color:azure;
-  border-style: solid;
-  border-color: white;
-  opacity: 0.75;
-
-}
-#id{
+#Login_Wrapper {
+  background-color: #abbaea;
+  float: right;
   position: absolute;
-  bottom: 300px;
-  padding-bottom: 0%;
-  padding-top:0%;
+  top: 20vh;
+  width: 400px;
+  height: 250px;
+  right: 0;
+  padding: 2px;
+  margin: 2.5%;
+  z-index: 0;
+  border: 5px solid;
+  opacity: 0.8;
+}
+#games_Wrapper {
+  float: right;
+  position: absolute;
+  top: 20vh;
+  width: 400px;
+  height: 638px;
+  right: 0;
+  padding: 0px;
+  margin: 2.5%;
+  z-index: 0;
+  border: 5px solid;
+}
+
+// #title {
+//   position: relative;
+//   padding-bottom: 300px;
+// }
+#bg {
+  width: 100%;
+  background-size: cover;
+  z-index: 0;
+}
+#LeagueInfo {
+  float: left;
+  position: absolute;
+  top: 20vh;
+  opacity: 0.75;
+  margin: 2.5%;
+}
+#Login {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+#League_Info_titile {
+  position: absolute;
+  top: 12vh;
+  opacity: 0.75;
+  margin: 2.5%;
+  color: whitesmoke;
+}
+#Favorite_Games_titile {
+  position: absolute;
+  right: 125px;
+  top: 12vh;
+  opacity: 0.75;
+  margin: 2.5%;
+  color: whitesmoke;
 }
 </style>
