@@ -2,16 +2,23 @@
 
 
 <b-container id="main">
+  <img id="bg" src='@/assets/1348783.jpg'>
     <b-row>
           <b-col id="left">
-        <h1 class="title">League Info</h1>
 
-    <LeagueInfo></LeagueInfo>
+    <LeagueInfo id="LeagueInfo">
+        <h1 class="title">League Info</h1>
+      
+    </LeagueInfo>
     </b-col>
     <b-col id="right">
+      <!-- <h1 v-if="!$root.store.username">Favorite Games:</h1> -->
+      <!-- <h1 v-else> Register</h1> -->
+      <div id="Login_Wrapper">
+    <LoginPage id="Login" v-if="!$root.store.username"></LoginPage>
+      </div>
 
-    <LoginPage v-if="!$root.store.username"></LoginPage>
-   <FavoriteGamesMain v-else></FavoriteGamesMain>
+         <FavoriteGamesMain v-if="$root.store.username"></FavoriteGamesMain>
     </b-col>
 
     </b-row>
@@ -56,13 +63,50 @@ export default {
 
 <style lang="scss" scoped>
 .container{
-  height:93vh;
-  width: 110vw;
-  //  background-image: url("../assets/maintest.jpg");
-  // background-size: cover;
+  height:100%;
+  width: 100%;
+  margin-left:0%;
+  margin-right: 0%;
+  padding-left: 0%;
+  padding-right:0%;
 }
 // #RightPart{
 //   float:left;
 // }
+// #main{
+//   //  background-image: url("../assets/1348783.jpg");
+//       // background-size: cover;
 
+// }
+#title{
+  position: relative;
+  padding-bottom: 300px;
+}
+#bg{
+  width: 99vw;
+  height:92vh;
+  background-size: cover;
+    z-index:0;
+
+  // margin-right:40%;
+}
+#LeagueInfo{
+  position: relative;
+  bottom: 700px;
+  opacity: 0.75;
+
+}
+#Login{
+  position: relative;
+  bottom: 700px;
+  left: 40px;
+}
+#Login_Wrapper{
+  background-color: white;
+  color:white;
+  z-index:-1;
+  border-style: solid;
+  border-color: white;
+  
+}
 </style>
