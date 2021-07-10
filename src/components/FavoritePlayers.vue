@@ -1,14 +1,15 @@
 <template>
-  <div>
+  <div id="cont">
     <FavPlayerPreview
       v-for="p in players"
       :id="p.player_id"
-      :FullName="p.name" 
-      :TeamName="p.team_name" 
-      :team_id="p.team_id" 
-      :Photo="p.image" 
-      :Position="p.position" 
-      :key="p.player_id"></FavPlayerPreview>
+      :FullName="p.name"
+      :TeamName="p.team_name"
+      :team_id="p.team_id"
+      :Photo="p.image"
+      :Position="p.position"
+      :key="p.player_id"
+    ></FavPlayerPreview>
   </div>
 </template>
 
@@ -17,29 +18,35 @@ import FavPlayerPreview from "./FavPlayerPreview.vue";
 export default {
   name: "FavoritePlayers",
   components: {
-    FavPlayerPreview
-  }, 
+    FavPlayerPreview,
+  },
   data() {
     return {
-      players: []
+      players: [],
     };
   },
   methods: {
-    async updatePlayers(){
+    async updatePlayers() {
       console.log("response");
       try {
-        this.players=JSON.parse(sessionStorage.getItem("Favplayer"));
+        this.players = JSON.parse(sessionStorage.getItem("Favplayer"));
       } catch (error) {
-        console.log("error in update players")
+        console.log("error in update players");
         console.log(error);
       }
-    }
-  }, 
-  mounted(){
+    },
+  },
+  mounted() {
     console.log("favorite players mounted");
-    this.updatePlayers(); 
-  }
+    this.updatePlayers();
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+#cont {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+</style>
