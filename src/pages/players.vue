@@ -1,24 +1,30 @@
 <template>
-  <div>
+  <div class="container">
     <figure class="snip1336">
-  <img src='@/assets/testpic.jpg' >
-  <figcaption>
-    <img :src="Photo" alt="profile-sample4" class="profile" />
-          <div :title="id" class="coach-title">
-          <h4> Name:<b-link :to="{ name: 'players', params: { id: id } }">{{ this.FullName }}</b-link>
-            <FavButton :id="id" Type="player"> </FavButton></h4> 
-          <h4>Team Name:<b-link :to="{ name: 'Team', params: { id: team_id } }">{{ TeamName }}</b-link></h4> 
+      <img src="@/assets/testpic.jpg" />
+      <figcaption>
+        <img :src="Photo" alt="profile-sample4" class="profile" />
+        <div :title="id" class="coach-title">
+          <h4>
+            Name:<b-link :to="{ name: 'players', params: { id: id } }">{{
+              this.FullName
+            }}</b-link>
+            <FavButton :key="id" :id="id" Type="player"> </FavButton>
+          </h4>
+          <h4>
+            Team Name:<b-link :to="{ name: 'Team', params: { id: team_id } }">{{
+              TeamName
+            }}</b-link>
+          </h4>
           <h4>Position: {{ Position }}</h4>
           <h4>birth date: {{ birth_date }}</h4>
           <h4>nationality: {{ nationality }}</h4>
           <h4>birthcountry: {{ birthcountry }}</h4>
           <h4>height: {{ height }}</h4>
           <h4>weight : {{ weight }}</h4>
-          </div>
-
-  </figcaption>
-</figure>
-
+        </div>
+      </figcaption>
+    </figure>
   </div>
 </template>
 
@@ -29,9 +35,9 @@ export default {
   data() {
     return {
       isHovered: false,
-      id:"",
-      FullName:"",
-      TeamName:"",
+      id: "",
+      FullName: "",
+      TeamName: "",
       team_id: "",
       Photo: "",
       Position: "",
@@ -42,7 +48,7 @@ export default {
       weight: "",
     };
   },
-    components: {
+  components: {
     FavButton,
   },
   name: "PlayerDetial",
@@ -56,7 +62,7 @@ export default {
 
     loadData(data) {
       this.FullName = data.name;
-      this.id = parseInt( data.player_id);
+      this.id = parseInt(data.player_id);
       this.FullName = data.name;
       this.TeamName = data.team_name;
       this.team_id = data.team_id;
@@ -77,7 +83,6 @@ export default {
         const response = await this.axios.get(url);
         this.loadData(response.data);
         console.log(typeof this.id);
-
       } catch (err) {
         console.log(err);
       }
@@ -87,10 +92,9 @@ export default {
 </script>
 
 <style>
-  @import '../assets/styles/Players.css';
+@import "../assets/styles/Players.css";
 
-.FavPlayer{
-  align-items:flex-start;
+.FavPlayer {
+  align-items: flex-start;
 }
-
 </style>
