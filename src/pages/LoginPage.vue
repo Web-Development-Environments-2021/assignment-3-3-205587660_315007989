@@ -88,25 +88,8 @@ export default {
     },
   },
   methods: {
-
-    // async SetInMemory() {
-    //   let favTeamsP = this.axios.get(
-    //     "http://localhost:3000/homepage/favoriteteam"
-    //   );
-    //   let favPlayersP = this.axios.get(
-    //     "http://localhost:3000/homepage/favoriteplayer"
-    //   );
-    //   let favGamesP = this.axios.get(
-    //     "http://localhost:3000/homepage/favoritematches"
-    //   );
-    //   await Promise.all([favTeamsP, favPlayersP, favGamesP]).then((values) => {
-    //     sessionStorage.setItem("Favteam", JSON.stringify(values[0].data));
-    //     sessionStorage.setItem("Favplayer", JSON.stringify(values[1].data));
-    //     sessionStorage.setItem("Favmatches", JSON.stringify(values[2].data));
-    //   });
-    // },
     async SetInMemory() {
-            let favGamesP = await this.axios.get(
+      let favGamesP = await this.axios.get(
         "http://localhost:3000/homepage/favoritematches"
       );
       sessionStorage.setItem("Favmatches", JSON.stringify(favGamesP.data));
@@ -119,9 +102,8 @@ export default {
       let favPlayersP = await this.axios.get(
         "http://localhost:3000/homepage/favoriteplayer"
       );
+      console.log(favPlayersP);
       sessionStorage.setItem("Favplayer", JSON.stringify(favPlayersP.data));
-
-
     },
 
     validateState(param) {
@@ -136,15 +118,10 @@ export default {
         });
         // console.log(response);
         // this.$root.loggedIn = true;
-        console.log(this.$root.store.login);
         this.$root.store.login(this.form.username);
-        this.SetInMemory().then((va)=>{
-        console.log(sessionStorage);
-        this.$emit("forceRerender");
-              this.$forceUpdate();
+        const t= await this.SetInMemory();
+        this.$emit(`myEventName`, this.form.username);
         this.$router.push("/");
-        });
-
       } catch (err) {
         console.log(err.response);
         if (err.response.status === 401) {
@@ -154,17 +131,16 @@ export default {
         //      this.form.submitError = err.response.data.message;
       }
     },
-    onLogin() {
-      // console.log("login method called");
+    async onLogin() {
       this.form.submitError = undefined;
       this.$v.form.$touch();
-      this.$emit('myCustomEvent')
+      const t= await this.Login();
+
+      this.$emit("myCustomEvent");
 
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
-      this.Login();
     },
   },
 };

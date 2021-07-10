@@ -45,9 +45,8 @@ export default {
     },
   },
   async mounted() {
-    console.log("Fav" + this.Type);
     const response_get = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
-    console.log(response_get);
+
 
     if (
       this.Type === "matches" &&

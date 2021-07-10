@@ -5,7 +5,7 @@
 
       <b-card-text>
         <div :title="id" class="player-title">
-          <FavButton :id="id" Type="player"> </FavButton>
+          <FavButton :id="parseInt(id)" Type="player"> </FavButton>
           <h1>{{ TeamName }} | #{{ Position }}</h1>
           <h2>{{ FullName }}</h2>
         </div>

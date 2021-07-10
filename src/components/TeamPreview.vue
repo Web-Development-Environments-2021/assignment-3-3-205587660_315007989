@@ -14,10 +14,10 @@
           <FavButton :id="id" Type="team"> </FavButton>
         </div>
         <ul class="team-content">
-          <li>Team Name: <b-link :to="{ name: 'Team', params: { id: team_id } }">
+          <li>Team Name: <b-link :to="{ name: 'Team', params: { id: id } }">
           {{ TeamName }}</b-link></li>
           <li>coach Name: <b-link :to="{ name: 'Coach', params: { id: coach_id } }">
-          {{ coachName }}:}</b-link></li>
+          {{ coachName }}</b-link></li>
         </ul>
       </b-card-text>
     </b-card>

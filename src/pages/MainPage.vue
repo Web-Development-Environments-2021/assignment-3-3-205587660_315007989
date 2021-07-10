@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <LoginPage v-if="!$root.store.username"></LoginPage>
-    <FavoriteGames v-if="$root.store.username"></FavoriteGames>
+    <LoginPage v-if="!$root.store.username" @myEventName="forceRerender" ></LoginPage>
+    <FavoriteGames v-if="$root.store.username" :key="$root.store.username"></FavoriteGames>
     <LeagueInfo></LeagueInfo>
   </div>
 </template>
@@ -12,22 +12,28 @@ import LeagueInfo from "../components/LeagueInfo";
 import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 export default {
+  name: "Main Page",
   data() {
     return {
+      username: "",
       componentKey: 0,
     };
   },
   methods: {
     forceRerender() {
-      console.log("DASfasdfasdfsadfgsadf");
-      this.componentKey += 1;
-      this.$forceUpdate();
+      console.log("Dfadsfsadfsadf")
+      this.componentKey+=1;
     }
   },
   components: {
     LeagueInfo, 
     LoginPage, 
     FavoriteGames
+  },
+  computed:{
+    isOLD: function(){
+      return $root.store.username!=""
+    }
   }
 
 };
