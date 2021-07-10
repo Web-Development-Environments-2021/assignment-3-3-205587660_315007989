@@ -11,7 +11,7 @@
     <b-col id="right">
 
     <LoginPage v-if="!$root.store.username"></LoginPage>
-   <FavoriteGames v-else></FavoriteGames>
+   <FavoriteGamesMain v-else></FavoriteGamesMain>
     </b-col>
 
     </b-row>
@@ -24,7 +24,7 @@
 
 <script>
 import LeagueInfo from "../components/LeagueInfo";
- import FavoriteGames from "../components/FavoriteGames";
+ import FavoriteGamesMain from "../components/FavoriteGamesMain";
 import LoginPage from "../pages/LoginPage";
 export default {
   name: "Main Page",
@@ -43,7 +43,7 @@ export default {
   components: {
     LeagueInfo, 
     LoginPage, 
-     FavoriteGames
+     FavoriteGamesMain
   },
   computed:{
     isOLD: function(){

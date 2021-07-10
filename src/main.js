@@ -13,6 +13,8 @@ const router = new VueRouter({
 import Vuelidate from "vuelidate";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import VueCarousel from 'vue-carousel';
+
 import {
   FormGroupPlugin,
   FormPlugin,
@@ -35,7 +37,7 @@ import {
   FormDatepickerPlugin,
   ImagePlugin,
   ModalPlugin,
-  TablePlugin
+  TablePlugin,
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -59,7 +61,8 @@ import {
   FormDatepickerPlugin,
   ImagePlugin,
   ModalPlugin,
-  TablePlugin
+  TablePlugin,
+  VueCarousel,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
