@@ -34,7 +34,8 @@ import {
   FormTextareaPlugin,
   FormDatepickerPlugin,
   ImagePlugin,
-  ModalPlugin
+  ModalPlugin,
+  TablePlugin
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -58,6 +59,7 @@ import {
   FormDatepickerPlugin,
   ImagePlugin,
   ModalPlugin,
+  TablePlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

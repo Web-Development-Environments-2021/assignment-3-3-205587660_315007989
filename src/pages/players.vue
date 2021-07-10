@@ -24,7 +24,7 @@
       <b-card-text>
         <div :title="id" class="player-title">
           <b> Player Id:</b> {{ id }}
-          <FavButton :id="id" Type="player"> </FavButton>
+          <FavButton v-if="id" :id=id Type="player"> </FavButton>
           <h1>{{ TeamName }} | #{{ Position }}</h1>
           <h3>{{ FullName }}</h3>
         </div>
@@ -80,10 +80,10 @@ export default {
 
     loadData(data) {
       this.FullName = data.name;
-      this.id = data.player_id;
+      this.id = parseInt(data.player_id);
       this.FullName = data.name;
       this.TeamName = data.team_name;
-      this.Team_id = data.team_id;
+      this.team_id = data.team_id;
       this.Photo = data.image;
       this.Position = data.position;
       this.nationality = data.nationality;
@@ -99,10 +99,7 @@ export default {
         console.log(`player ID number ${player_id}`);
         const url = `http://localhost:3000/player/playerFullDetails/${player_id}`;
         const response = await this.axios.get(url);
-        console.log(response);
-        console.log(response.data.name);
-        // this.FullName=response.data.name
-        console.log(this);
+        console.log(response.data)
         this.loadData(response.data);
       } catch (err) {
         console.log(err);

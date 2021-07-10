@@ -1,14 +1,90 @@
 <template>
   <div>
-    <b-table striped hover :items="items"></b-table>
+    <b-table
+      striped
+      hover
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :fields="fields"
+      :items="items"
+    >
+      <template #cell(name)="row">
+        {{ row.value.first }} {{ row.value.last }}
+      </template>
+
+
+      <template #cell(homeTeamName)="data">
+        <span v-html="data.value"></span>
+      </template>
+          <template #cell(awayTeamName)="data">
+        <span v-html="data.value"></span>
+      </template>
+
+
+      <template #cell(EventLog)="row">
+        <fav-button  v-if= !isOld(row) :id="row.item.gameID" Type="matches"></fav-button>
+        <b-button v-if= isOld(row) size="sm" @click="info(row, $event.target)" class="mr-1">
+          Info modal
+        </b-button>
+      </template>
+
+      <template #row-details="row">
+        <b-card>
+          <ul>
+            <li v-for="(value, key) in row.item" :key="key">
+              {{ key }}: {{ value }}
+            </li>
+          </ul>
+        </b-card>
+      </template>
+    </b-table>
+
+    <b-modal
+      :id="infoModal.id"
+      :title="infoModal.title"
+      ok-only
+      @hide="resetInfoModal"
+    >
+      <GameEvent :id="infoModal.content"></GameEvent>
+    </b-modal>
   </div>
 </template>
 
 <script>
-import GameEventButton from "../components/GameEventButton.vue";
+import GameEvent from "../components/GameEvent.vue";
+import FavButton from './FavButton.vue';
+
 export default {
   name: "GameTable",
   components: {
+    GameEvent,
+    FavButton,
+  },
+
+  data() {
+    return {
+      fields: [
+        { key: `gameID`, sortable: true },
+        { key: `homeTeam`, sortable: true },
+        { key: `awayTeam`, sortable: true },
+        { key: `homeScore`, sortable: true },
+        { key: `awayScore`, sortable: true },
+        { key: `stadium`, sortable: true },
+        { key: `referee`, sortable: true },
+        { key: `stage`, sortable: true },
+        { key: `homeTeamName`, sortable: true },
+        { key: `awayTeamName`, sortable: true },
+        { key: `gameDate`, sortable: true },
+        { key: `hour`, sortable: true },
+        { key: `EventLog` },
+      ],
+      infoModal: {
+        id: "info-modal",
+        title: "",
+        content: "",
+      },
+      items: [],
+    };
   },
   props: {
     results: {
@@ -16,70 +92,52 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      items: {
-      },
-    };
+  watch:{
+    results: function(newVal, oldVal) { // watch it
+      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    }
   },
+
   methods: {
-    hello(){
-      console.log(432)
+    isOld(element){
+      var today = new Date();
+      today = today.toISOString();
+      return element.item.gameDate < today
     },
-    filterData(dataArr, keys) {
-      let data = dataArr.map((entry) => {
-        let filteredEntry = {};
-        keys.forEach((key) => {
-          if (key in entry) {
-            filteredEntry[key] = entry[key];
-          }
-        });
-        return filteredEntry;
+    info(item, button) {
+      this.infoModal.title = `Game Evnets`;
+      this.infoModal.content = item.item.gameID;
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
+    },
+    resetInfoModal() {
+      this.infoModal.title = "";
+      this.infoModal.content = "";
+    },
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+    updateTable() {
+      let res = this.results;
+      var today = new Date();
+      today = today.toISOString();
+      res.forEach((element) => {
+        element.EventLog = "";
+        if (element.gameDate < today) {
+          element.EventLog = `pass`;
+        }
+        element.homeTeamName = `<a href="#/Team/${element.homeTeam}" class="" target="_self"> ${element.homeTeamName}</a>`;
+        element.awayTeamName = `<a href="#/Team/${element.awayTeam}" class="" target="_self"> ${element.awayTeamName}</a>`;
+
+        element.gameDate = element.gameDate.substring(0, 10);
+        element.hour = element.hour.substring(11, 16);
       });
-      return data;
+      this.items = res;
     },
   },
   mounted() {
-    //       let keys = ["gameID", "home\ Team","away\ Team","home\ Score","away\ Score","stadium","game\ Date","referee","stage","home Team \ Name"
-    // ,"away Team\ Name","hour"];
-    let keys = [
-      "gameID",
-      "homeTeam",
-      "awayTeam",
-      "homeScore",
-      "awayScore",
-      "stadium",
-      "referee",
-      "stage",
-      "homeTeamName",
-      "awayTeamName",
-      "gameDate",
-      "hour",
-      "EventLog",
-    ];
-    var today = new Date();
-    today = today.toISOString();
-    let entries = this.results;
-    entries.forEach((element) => {
-      if (element.gameDate < today) {
-        element.EventLog = `<button v-on:click="console.log(432);">Add 1</button>`;
-      }
-      element.gameDate = element.gameDate.substring(0, 10);
-      element.hour = element.hour.substring(11, 16);
-    });
-    const columns = keys.map((key) => {
-      return {
-        label: key.toUpperCase(),
-        field: key,
-        sort: true,
-      };
-    });
-    //rows
-
-    this.data = {
-      columns,
-      rows: entries,
-    };
+    this.updateTable();
   },
 };
 </script>

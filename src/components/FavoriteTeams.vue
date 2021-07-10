@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="cont">
     <TeamPreview
       v-for="t in teams"
       :id="t.team_id"
@@ -41,4 +41,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+#cont {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+</style>

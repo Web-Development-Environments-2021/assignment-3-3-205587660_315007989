@@ -33,15 +33,18 @@ export default {
   methods: {
     async updateGames() {
       try {
-        const response=JSON.parse(sessionStorage.getItem("Favmatches"));
+        let response=JSON.parse(sessionStorage.getItem("Favmatches"));
         if (!response){
+          console.log(sessionStorage)
+          console.log(sessionStorage[0])
           response=[];
         }
-        console.log("Favmatches",response);
         let today = new Date();
         today = today.toISOString();
         const old_games = response.filter((game) => game.gameDate < today);
         this.games = response.filter((game) => game.gameDate > today);
+        sessionStorage.setItem("Favmatches", JSON.stringify(this.games));
+
         console.log("oldgame",old_games);
         if (old_games.length > 0) {
           this.$root.toast(

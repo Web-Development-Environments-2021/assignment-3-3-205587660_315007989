@@ -17,22 +17,28 @@ import LeagueInfo from "../components/LeagueInfo";
 // import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 export default {
+  name: "Main Page",
   data() {
     return {
+      username: "",
       componentKey: 0,
     };
   },
   methods: {
     forceRerender() {
-      console.log("DASfasdfasdfsadfgsadf");
-      this.componentKey += 1;
-      this.$forceUpdate();
+      console.log("Dfadsfsadfsadf")
+      this.componentKey+=1;
     }
   },
   components: {
     LeagueInfo, 
     LoginPage, 
-    // FavoriteGames
+    FavoriteGames
+  },
+  computed:{
+    isOLD: function(){
+      return $root.store.username!=""
+    }
   }
 
 };
