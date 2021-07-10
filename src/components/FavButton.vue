@@ -46,9 +46,11 @@ export default {
   },
   async mounted() {
     const response_get = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
-    console.log("tet",this.Type);
+    console.log("tet",response_get);
+    console.log("tet",this.id);
+    // const id= String.valueOf(this.id);;
     if (
-      this.Type === "matches" &&
+      this.Type == "matches" &&
       response_get.find(
         (element) => element.gameID == this.id || element.game_id == this.id
       )
@@ -56,12 +58,13 @@ export default {
       console.log("liked game");
       this.isLiked = true;
     } else if (
-      this.Type === "team" &&
+      this.Type == "team" &&
       response_get.find((element) => element.team_id == this.id)
     ) {
+     console.log("liked_team");
       this.isLiked = true;
     } else if (
-      this.Type === "player" &&
+      this.Type == "player" &&
       response_get.find((element) => element.player_id == this.id)
     ) {
       this.isLiked = true;

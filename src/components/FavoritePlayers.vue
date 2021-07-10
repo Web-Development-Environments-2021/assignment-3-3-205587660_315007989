@@ -30,6 +30,8 @@ export default {
       console.log("response");
       try {
         this.players = JSON.parse(sessionStorage.getItem("Favplayer"));
+        console.log(typeof this.players [0].player_id);
+
       } catch (error) {
         console.log("error in update players");
         console.log(error);

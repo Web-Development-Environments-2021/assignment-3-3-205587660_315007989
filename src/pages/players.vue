@@ -6,7 +6,7 @@
     <img :src="Photo" alt="profile-sample4" class="profile" />
           <div :title="id" class="coach-title">
           <h4> Name:<b-link :to="{ name: 'players', params: { id: id } }">{{ this.FullName }}</b-link>
-          <FavButton :id="id" Type="player"> </FavButton></h4> 
+            <FavButton :id="id" Type="player"> </FavButton></h4> 
           <h4>Team Name:<b-link :to="{ name: 'Team', params: { id: team_id } }">{{ TeamName }}</b-link></h4> 
           <h4>Position: {{ Position }}</h4>
           <h4>birth date: {{ birth_date }}</h4>
@@ -28,7 +28,7 @@ import FavButton from "../components/FavButton.vue";
 export default {
   data() {
     return {
-            isHovered: false,
+      isHovered: false,
       id:"",
       FullName:"",
       TeamName:"",
@@ -56,7 +56,7 @@ export default {
 
     loadData(data) {
       this.FullName = data.name;
-      this.id = parseInt(data.player_id);
+      this.id = parseInt( data.player_id);
       this.FullName = data.name;
       this.TeamName = data.team_name;
       this.team_id = data.team_id;
@@ -75,8 +75,9 @@ export default {
         console.log(`player ID number ${player_id}`);
         const url = `http://localhost:3000/player/playerFullDetails/${player_id}`;
         const response = await this.axios.get(url);
-        console.log(response.data)
         this.loadData(response.data);
+        console.log(typeof this.id);
+
       } catch (err) {
         console.log(err);
       }

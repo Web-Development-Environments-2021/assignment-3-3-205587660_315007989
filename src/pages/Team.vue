@@ -14,7 +14,7 @@
         <div :title="id" class="team-title">
           <b> Team Id:</b> {{ id }}
           <h1>{{ team_name }}</h1>
-          <FavButton :id="id" Type="team"> </FavButton>
+          <FavButton v-if="loaded" :key="id" :id="id" Type="team"> </FavButton>
           <ul class="team-content">
             <li>
               Coach Name:
@@ -107,15 +107,17 @@ export default {
       coach_id: "",
       coach_name: "",
       trophies: "",
+      loaded: false,
     };
   },
   name: "TeamDetial",
   mounted() {
     this.getTeam();
+    this.loaded=true;
   },
   methods: {
     loadData(data) {
-      this.id = data.team_id;
+      this.id =parseInt( data.team_id);
       this.team_name = data.team_name;
       this.Photo = data.logo_path;
       this.coach_id = data.coach_id;
@@ -131,9 +133,7 @@ export default {
         const url = `http://localhost:3000/teams/teamFullDetails/${team_id}`;
         const response = await this.axios.get(url);
         this.loadData(response.data);
-        console.log(response.data.games);
-
-        this.filterGames(await response.data.games);
+        this.filterGames(response.data.games);
       } catch (err) {
         console.log(err);
       }
