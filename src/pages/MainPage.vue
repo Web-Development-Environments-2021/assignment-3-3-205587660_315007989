@@ -1,20 +1,30 @@
 <template>
 
-  <b-container>
-    <b-col id="RightPart">
-    <LoginPage v-if="!$root.store.username"></LoginPage>
-    </b-col>
-    <!-- <FavoriteGames v-if="$root.store.username"></FavoriteGames> -->
-    <b-col>
-    <LeagueInfo></LeagueInfo>
 
+<b-container id="main">
+    <b-row>
+          <b-col id="left">
+        <h1 class="title">League Info</h1>
+
+    <LeagueInfo></LeagueInfo>
     </b-col>
-  </b-container>
+    <b-col id="right">
+
+    <LoginPage v-if="!$root.store.username"></LoginPage>
+   <FavoriteGames v-else></FavoriteGames>
+    </b-col>
+
+    </b-row>
+
+
+    </b-container>
+
+
 </template>
 
 <script>
 import LeagueInfo from "../components/LeagueInfo";
-// import FavoriteGames from "../components/FavoriteGames";
+ import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 export default {
   name: "Main Page",
@@ -33,7 +43,7 @@ export default {
   components: {
     LeagueInfo, 
     LoginPage, 
-    // FavoriteGames
+     FavoriteGames
   },
   computed:{
     isOLD: function(){
@@ -51,8 +61,8 @@ export default {
   //  background-image: url("../assets/maintest.jpg");
   // background-size: cover;
 }
-#RightPart{
-  float:left;
-}
+// #RightPart{
+//   float:left;
+// }
 
 </style>
