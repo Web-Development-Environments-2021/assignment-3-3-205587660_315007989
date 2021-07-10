@@ -5,20 +5,20 @@
       <figcaption>
         <img :src="Photo" alt="profile-sample4" class="profile" />
         <div :title="id" class="coach-title">
-          <h4>
+          <h5>
             Name:<b-link :to="{ name: 'players', params: { id: id } }">{{
               this.FullName
             }}</b-link>
             <FavButton :id="id" Type="player"> </FavButton>
-          </h4>
+          </h5>
 
           <!-- <h4> Player ID:{{ this.id }}</h4>  -->
-          <h4>
+          <h5>
             Team Name:<b-link :to="{ name: 'Team', params: { id: team_id } }">{{
               TeamName
             }}</b-link>
-          </h4>
-          <h4>Position: {{ Position }}</h4>
+          </h5>
+          <h5>Position: {{ Position }}</h5>
         </div>
       </figcaption>
     </figure>

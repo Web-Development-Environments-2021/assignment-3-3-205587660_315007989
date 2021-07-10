@@ -1,5 +1,40 @@
 <template>
-  <div class="game-preview">
+  <div id="favCont">
+    <figure class="snip1336">
+      <img src="@/assets/testpic.jpg" />
+      <figcaption>
+        <img
+          src="@/assets/football.png"
+          alt="profile-sample4"
+          class="profile"
+        />
+        <div :title="id" class="coach-title">
+          <h5>
+            host:
+            <b-link :to="{ name: 'Team', params: { id: hostTeamID } }">{{
+              hostTeam
+            }}</b-link>
+            <FavButton v-if="!isPast" :id="id" Type="matches"> </FavButton>
+          </h5>
+          <h5>
+            guest:
+            <b-link :to="{ name: 'Team', params: { id: guestTeamID } }">
+              {{ guestTeam }}</b-link
+            >
+          </h5>
+
+          <h5 v-if="isPast">score: {{ homeScore }}:{{ awayScore }}</h5>
+          <h5>referee: {{ referee }}</h5>
+          <h5>stadium: {{ stadium }}</h5>
+          <h5>stage: {{ stage }}</h5>
+          <h5>date: {{ datePrint }}</h5>
+          <h5>time: {{ timePrint }}</h5>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+
+  <!-- <div class="game-preview">
     <div :title="id" class="game-title">
       <b>Game Id:</b> {{ id }}
 
@@ -30,12 +65,12 @@
       :id="id"
       ></GameEvent>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
 import FavButton from "./FavButton.vue";
-import GameEvent from "./GameEvent.vue";
+// import GameEvent from "./GameEvent.vue";
 export default {
   data() {
     return {
@@ -99,7 +134,7 @@ export default {
   },
   components: {
     FavButton,
-    GameEvent,
+    // GameEvent,
   },
   methods: {
     async setIsPast() {
@@ -107,8 +142,8 @@ export default {
       today = today.toISOString();
       console.log(this);
       this.isPast = this.date < today;
-      this.datePrint=this.date.substring(0, 10);
-      this.timePrint=this.hour.substring(11, 16);
+      this.datePrint = this.date.substring(0, 10);
+      this.timePrint = this.hour.substring(11, 16);
     },
     async getEvents() {
       try {
@@ -132,26 +167,5 @@ export default {
 </script>
 
 <style>
-.game-preview {
-  display: inline-block;
-  width: 250px;
-  height: 200px;
-  position: relative;
-  margin: 10px 10px;
-  border-style: solid;
-  border-radius: 10px;
-  border-width: 5px;
-  border-color: cadetblue;
-}
-
-.game-preview .game-title {
-  text-align: center;
-  text-transform: uppercase;
-  color: rgb(111, 197, 157);
-}
-
-.game-preview .game-content {
-  width: 100%;
-  overflow: hidden;
-}
+@import "../assets/styles/Players.css";
 </style>

@@ -1,15 +1,20 @@
 <template>
-  <div class="container">
-    <h1 class="title">Main Page</h1>
-    <LoginPage v-if="!$root.store.username" @myEventName="forceRerender" ></LoginPage>
-    <FavoriteGames v-if="$root.store.username" :key="$root.store.username"></FavoriteGames>
+
+  <b-container>
+    <b-col id="RightPart">
+    <LoginPage v-if="!$root.store.username"></LoginPage>
+    </b-col>
+    <!-- <FavoriteGames v-if="$root.store.username"></FavoriteGames> -->
+    <b-col>
     <LeagueInfo></LeagueInfo>
-  </div>
+
+    </b-col>
+  </b-container>
 </template>
 
 <script>
 import LeagueInfo from "../components/LeagueInfo";
-import FavoriteGames from "../components/FavoriteGames";
+// import FavoriteGames from "../components/FavoriteGames";
 import LoginPage from "../pages/LoginPage";
 export default {
   name: "Main Page",
@@ -28,7 +33,7 @@ export default {
   components: {
     LeagueInfo, 
     LoginPage, 
-    FavoriteGames
+    // FavoriteGames
   },
   computed:{
     isOLD: function(){
@@ -40,15 +45,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
+.container{
+  height:93vh;
+  width: 110vw;
+  //  background-image: url("../assets/maintest.jpg");
+  // background-size: cover;
 }
-.blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
-  filter: blur(2px);
+#RightPart{
+  float:left;
 }
-::v-deep .blur .recipe-preview {
-  pointer-events: none;
-  cursor: default;
-}
+
 </style>
