@@ -1,14 +1,13 @@
 <template>
   <div>
-    <h1 class="title">All Games</h1>
-    <div id="app">
-      <div>
-        <b-button v-b-modal="'add-game'">Add new game</b-button>
+    <div class="container">
+          <h1 class="title">All Games</h1>
+        <b-button id= "btn" variant="primary" v-b-modal="'add-game'">Add new game</b-button>
 
         <AddGame :key="componentKey" @myEventName="addGameRender" id="add-game">
         </AddGame>
 
-        <b-button v-b-modal="'score-modal'">Update Score</b-button>
+        <b-button id= "btn" variant="primary" v-b-modal="'score-modal'">Update Score</b-button>
         <AddResult
           :key="componentKey"
           @myEventName="forceRerender"
@@ -16,7 +15,7 @@
         >
         </AddResult>
 
-        <b-button v-b-modal="'add-event'">Add Event to game</b-button>
+        <b-button  id= "btn" variant="primary" v-b-modal="'add-event'">Add Event to game</b-button>
 
         <AddEvent id="add-event"> </AddEvent>
 
@@ -31,7 +30,6 @@
           fluid
           alt="Responsive image"
         ></svg>
-      </div>
     </div>
   </div>
 </template>
@@ -88,18 +86,7 @@ export default {
 </script>
 
 <style scoped>
-search-input {
-  margin-left: 20px;
-  width: 500px;
-}
-.dropdown {
-  margin: 10px 0;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
-}
-
-.dropdown span {
-  display: inline-block;
-  width: 80px;
+#btn{
+  margin-right: 20px;
 }
 </style>

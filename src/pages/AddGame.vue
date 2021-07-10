@@ -294,7 +294,7 @@ export default {
           referee: this.form.Referee,
           stageName: this.form.stage,
           stadium: this.form.stadium,
-            hour: this.form.eventTime,
+          hour: this.form.eventTime,
         });
         const response = await this.axios.post(
           `http://localhost:3000/gamechange/`,
@@ -308,15 +308,17 @@ export default {
             hour: this.form.eventTime,
           }
         );
-        const obj={            gameDate: this.form.gameDate,
-            homeTeam: this.form.homeTeam,
-            awayTeam: this.form.awayTeam,
-            referee: this.form.Referee,
-            stageName: this.form.stage,
-            stadium: this.form.stadium,
-            hour: this.form.eventTime,}
+        const obj = {
+          gameDate: this.form.gameDate,
+          homeTeam: this.form.homeTeam,
+          awayTeam: this.form.awayTeam,
+          referee: this.form.Referee,
+          stageName: this.form.stage,
+          stadium: this.form.stadium,
+          hour: this.form.eventTime,
+        };
         console.log(response);
-        this.$emit(`myEventName`,obj);
+        this.$emit(`myEventName`, obj);
 
         if (response.status == 409 || response.status == "409") {
           this.form.submitError =
@@ -328,8 +330,7 @@ export default {
         }
       } catch (err) {
         console.log(err);
-                  this.form.submitError =
-            " one of the teams all ready playing this day";
+        this.form.submitError = " one of the teams all ready playing this day";
         return false;
       }
     },
