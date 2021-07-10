@@ -25,7 +25,6 @@
     <img src='@/assets/Screenshot_1.png' alt="profile-sample4" class="profile" />
           <h5>Season ID: {{ CurrentSeasonID }} </h5>
           <h5>Stage: {{ Stage }}</h5>
-
   </figcaption>
 </figure>
     </div>
@@ -38,9 +37,36 @@ export default {
       leagueName: "SuperLiga", 
       CurrentSeasonID: "18334", 
       Stage: "",
+      Date:"",
+      Hour:"",
+      stadium:"",
+      guestTeam:"",
+      hostTeam:"",
     };
   },methods:{
     async getStage(){
+        try {
+          var response=[]
+      response = await this.axios.get(`http://localhost:3000/game/getClosestGame`);
+              if (response){
+                console.log(123);
+                console.log(response.data);
+          this.Stage=response.data[0].stage
+          this.Date=response.data[0].gameDate
+          this.stadium=response.data[0].stadium
+          this.Hour=response.data[0].Hour
+          this.hostTeam=response.data[0].homeTeamName
+          this.guestTeam=reponse.data[0].awayTeamName
+        }
+        }
+
+        catch(err)
+        {
+          console.log(err);
+        }
+
+    },
+        async GetClosestGame(){
         try {
           var response=[]
       response = await this.axios.get(`http://localhost:3000/game/getClosestGame`);
@@ -56,7 +82,8 @@ export default {
           console.log(err);
         }
 
-    },},
+    },
+    },
       mounted() {
     console.log("get league details mounted");
     this.getStage();

@@ -79,10 +79,11 @@ export default {
 //       // background-size: cover;
 
 // }
-#title{
-  position: relative;
-  padding-bottom: 300px;
+#main{
+  height:100vh;
+  width:100vw;
 }
+
 #bg{
   width: 99vw;
   height:92vh;
@@ -103,11 +104,16 @@ export default {
   left: 40px;
 }
 #Login_Wrapper{
-  background-color: white;
-  color:white;
-  z-index:-1;
+  color:azure;
   border-style: solid;
   border-color: white;
-  
+  opacity: 0.75;
+
+}
+#id{
+  position: absolute;
+  bottom: 300px;
+  padding-bottom: 0%;
+  padding-top:0%;
 }
 </style>
