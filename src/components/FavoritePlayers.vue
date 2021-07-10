@@ -44,9 +44,7 @@ export default {
 </script>
 
 <style>
-#cont {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-}
+@import '../assets/styles/Players.css';
+
+
 </style>

@@ -29,10 +29,15 @@
           <h5>stage: {{ stage }}</h5>
           <h5>date: {{ datePrint }}</h5>
           <h5>time: {{ timePrint }}</h5>
-          <b-button v-if="isPast" v-b-modal="infoModal.id">Show Modal</b-button>
-          <b-modal :id="infoModal.id" title="Game Event">
-            <GameEvent v-if="isPast" :id="game_id"></GameEvent>
-          </b-modal>
+          <!-- <b-button v-b-modal="infoModal.id">Show Modal</b-button>
+          <b-modal
+           :id="infoModal.id"
+            title="Game Event" 
+            ok-only
+            @hide="resetInfoModal"
+          >
+            <GameEvent :id="id"></GameEvent>
+          </b-modal> -->
         </div>
       </figcaption>
     </figure>
@@ -41,21 +46,20 @@
 
 <script>
 import FavButton from "./FavButton.vue";
-import GameEvent from "./GameEvent.vue";
+// import GameEvent from "./GameEvent.vue";
 export default {
   data() {
     return {
       Events: [],
-      game_id: "",
       isPast: true,
-      datePrint: "",
-      timePrint: "",
-      infoModal: {
-        id: `info-modal${this.id}`,
-        title: "",
-        content: "",
-      },
+      datePrint: "1",
+      timePrint: "2",
     };
+  },
+  infoModal: {
+    id: `info-modal${id}`,
+    title: "",
+    content: "",
   },
 
   name: "GamePreviewDetial",
@@ -90,11 +94,9 @@ export default {
     },
     homeScore: {
       type: Number,
-      required: true,
     },
     awayScore: {
       type: Number,
-      required: true,
     },
     stage: {
       type: String,
@@ -111,7 +113,7 @@ export default {
   },
   components: {
     FavButton,
-    GameEvent,
+    // GameEvent,
   },
   methods: {
     async setIsPast() {
@@ -137,7 +139,6 @@ export default {
   },
   mounted() {
     console.log("game preview mounted");
-    this.game_id = this.id;
     this.setIsPast();
     this.getEvents();
   },

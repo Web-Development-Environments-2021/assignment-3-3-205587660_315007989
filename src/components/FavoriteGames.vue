@@ -1,7 +1,6 @@
 <template>
   <div>
       <div id="cont">
-        <h1>Favorite Games:</h1>
     <GamePreviewDetial
          v-for="g in games"
           :id="g.gameID"

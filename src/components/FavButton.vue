@@ -22,7 +22,7 @@
       </b-icon>
       <b-icon v-else id="heart" icon="heart"></b-icon>
     </div>
-  </div >
+  </div>
 </template>
 
 <script>
@@ -46,8 +46,7 @@ export default {
   },
   async mounted() {
     const response_get = JSON.parse(sessionStorage.getItem("Fav" + this.Type));
-
-
+    console.log("tet",this.Type);
     if (
       this.Type === "matches" &&
       response_get.find(
@@ -110,7 +109,10 @@ export default {
         );
         url = `http://localhost:3000/homepage/favorite${this.Type}`;
         const response_update = await this.axios.get(url);
-        sessionStorage.setItem("Fav" + this.Type, JSON.stringify(response_update.data));
+        sessionStorage.setItem(
+          "Fav" + this.Type,
+          JSON.stringify(response_update.data)
+        );
 
         this.isLiked = true;
       } catch (err) {
@@ -125,7 +127,7 @@ export default {
 </script>
 
 <style>
-.Fav-Button{
+.Fav-Button {
   display: inline-block;
 }
 .player-preview {

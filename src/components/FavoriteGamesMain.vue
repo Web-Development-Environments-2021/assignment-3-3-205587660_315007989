@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="cont">
       <carousel id="car" :per-page="1" :paginationEnabled="false">
         <slide v-if="games.length > 0">
           <GamePreviewDetial
@@ -52,7 +51,6 @@
         </slide>
       </carousel>
     </div>
-  </div>
 </template>
 
 <script>
@@ -113,9 +111,7 @@ export default {
 </script>
 
 <style>
-#car{
-  margin-top: 80px;
-}
+
 #cont {
   display: flex;
   flex-wrap: wrap;
